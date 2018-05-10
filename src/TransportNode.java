@@ -15,6 +15,10 @@ public class TransportNode {
         yCoord = Double.parseDouble(temp[2]);
         type = temp[3].equals("AIRPORT") ? Type.AIRPORT : Type.TRAINSTATION;
     }
+    public TransportNode(double xCoord, double yCoord){
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+    }
 
     public String getName() {
         return name;
@@ -29,10 +33,16 @@ public class TransportNode {
         return type;
     }
 
+<<<<<<< HEAD
     public void print(){
         System.out.println("Name: "+name+" x: "+xCoord+" y: "+yCoord+" Typ: "+type);
     }
 
+=======
+    /*
+     *  Berechnet die Distanz zwischen zwei Transportknotenpunkten
+     */
+>>>>>>> 967a6f34d8099bd913781a31b6f7db2bf6ddd20c
     public static double distance(TransportNode a, TransportNode b){
         double xDist = a.getxCoord() - b.getxCoord();
         double yDist = a.getyCoord() - b.getyCoord();

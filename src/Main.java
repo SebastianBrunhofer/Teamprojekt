@@ -18,5 +18,8 @@ public class Main {
             System.out.println("File not found!");
             System.exit(1);
         }
+        //Testcases
+        int[] a = list.nodesInRadius(100, 1818.54657, 5813.29982);
+        System.out.println(a[0] + " " + a[1]);
     }
 }
