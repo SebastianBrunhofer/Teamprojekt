@@ -33,18 +33,11 @@ public class TransportNode {
         return type;
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> b2730e50caa76f2a09d4641363db0554e86d1c21
     public void print(){
         System.out.println("Name: " + name + " x = " + xCoord + " y = " + yCoord + " Typ: " + type);
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> b2730e50caa76f2a09d4641363db0554e86d1c21
     /*
      *  Berechnet die Distanz zwischen zwei Transportknotenpunkten
      */
