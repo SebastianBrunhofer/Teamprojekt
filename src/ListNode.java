@@ -19,22 +19,24 @@ public class ListNode {
         this.next = next;
     }
 
-    public double nodesInRadius(double r, ListNode list){
-        ListNode current = list;
-        double counter = 0;
-        if (current.next.getValue() != null){
+    public int[] nodesInRadius(double r, double xThis, double yThis){
+        ListNode current = this;
+        int[] train_air = new int[2];
+        while (current.getValue() != null) {
+            double xCurrent = current.getValue().getxCoord();
+            double yCurrent = current.getValue().getyCoord();
+            if (Math.abs(xCurrent - xThis) <= r && Math.abs(yCurrent - yThis) <= r) {
+                double distance = TransportNode.distance(current.value, new TransportNode(xThis, yThis));
+                if (distance <= r) {
+                    if (current.getValue().getType() == Type.AIRPORT){
+                        train_air[1]++;
+                    } else {
+                        train_air[0]++;
+                    }
+                }
+            }
             current = current.next;
         }
-        double xCurrent = current.getValue().getxCoord();
-        double yCurrent = current.getValue().getyCoord();
-        double xThis = this.value.getxCoord();
-        double yThis = this.value.getyCoord();
-        if (Math.abs(xCurrent - xThis) <= r && Math.abs(yCurrent - yThis) <= r){
-            double distance = TransportNode.distance(current.value, this.value);
-            if (distance <= r){
-                counter++;
-            }
-        }
-        return counter;
+        return train_air;
     }
 }

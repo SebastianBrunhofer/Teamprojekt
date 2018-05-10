@@ -15,6 +15,10 @@ public class TransportNode {
         yCoord = Double.parseDouble(temp[2]);
         type = temp[3].equals("AIRPORT") ? Type.AIRPORT : Type.TRAINSTATION;
     }
+    public TransportNode(double xCoord, double yCoord){
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+    }
 
     public String getName() {
         return name;
