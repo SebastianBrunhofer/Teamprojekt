@@ -19,6 +19,9 @@ public class ListNode {
         this.next = next;
     }
 
+    /*
+     *  Berechnet die Anzahl der Bahnhöfe und Flughäfen in einem Radius von r um den Punkt (xThis, yThis)
+     */
     public int[] nodesInRadius(double r, double xThis, double yThis){
         ListNode current = this;
         int[] train_air = new int[2];

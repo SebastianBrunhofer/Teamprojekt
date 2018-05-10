@@ -33,6 +33,9 @@ public class TransportNode {
         return type;
     }
 
+    /*
+     *  Berechnet die Distanz zwischen zwei Transportknotenpunkten
+     */
     public static double distance(TransportNode a, TransportNode b){
         double xDist = a.getxCoord() - b.getxCoord();
         double yDist = a.getyCoord() - b.getyCoord();
