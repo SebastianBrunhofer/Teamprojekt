@@ -1,14 +1,10 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
-public class TDTree {
+public class BTDTree {
     TDTreeNode root;
 
-    public TDTree(){
+    public BTDTree(){
 
     }
-    public TDTree(TDTreeNode r){
+    public BTDTree(TDTreeNode r){
         root=r;
     }
     public void add(TransportNode d){
@@ -95,34 +91,11 @@ public class TDTree {
             }
         }
 
-        public void print(){
-            if(left!=null){
-                left.print();
-            }
-            data.print();
-            if(right!=null){
-                right.print();
-            }
-        }
 
     }
 
     public static void main(String[] args) {
-        TDTree baum = new TDTree();
-        String path = "D:/Google Drive/#Uni/2.Semester/EP2/Teamaufgabe/data/junctions.csv";
-        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
-        {
-            while(scn.hasNextLine()){
-                //System.out.println(scn.nextLine());
-                TransportNode neu = new TransportNode(scn.nextLine());
-                neu.print();
-                //System.out.println(neu.getName());
-                baum.add(neu);
-            }
-        } catch(FileNotFoundException e){
-            System.out.println("File not found!");
-            System.exit(1);
-        }
-        baum.root.print();
+        BTDTree baum = new BTDTree();
+
     }
 }

@@ -29,6 +29,10 @@ public class TransportNode {
         return type;
     }
 
+    public void print(){
+        System.out.println("Name: "+name+" x: "+xCoord+" y: "+yCoord+" Typ: "+type);
+    }
+
     public static double distance(TransportNode a, TransportNode b){
         double xDist = a.getxCoord() - b.getxCoord();
         double yDist = a.getyCoord() - b.getyCoord();
