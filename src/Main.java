@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         ListNode list = new ListNode();
         ListNode current = list;
-        String path = "C:/Users/Sebastian/Desktop/Teamaufgabe/data/junctions.csv";
+        String path = "data/junctions.csv";
         try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {
             while(scn.hasNextLine()){
