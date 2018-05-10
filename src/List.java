@@ -1,24 +1,22 @@
-import java.sql.SQLOutput;
+public class List{
+    public ListNodeV2 start;
 
-public class ListNode {
 
-    private TransportNode value;
-    private ListNode next;
-
-    public ListNode(){}
-
-    public TransportNode getValue() {
-        return value;
-    }
-    public ListNode getNext() {
-        return next;
+    public void add(TransportNode neu){
+        add(new ListNodeV2(neu));
     }
 
-    public void setValue(TransportNode value) {
-        this.value = value;
-    }
-    public void setNext(ListNode next) {
-        this.next = next;
+    public void add(ListNodeV2 neu){
+        if(start!=null){
+            ListNodeV2 curr = start;
+            while(curr.getNext() !=null){
+                curr = curr.getNext();
+            }
+            curr.setNext(neu);
+        }
+        else{
+            start=neu;
+        }
     }
 
     /*
@@ -27,9 +25,9 @@ public class ListNode {
      *  TODO ich glaube diese Methode liefert "zu viele Werte" als ich mit radius 30.0 und mit 20 Bahnhöfen in der nähe, ausprobiert habe sind immernoch 838 Bahnhöfe rausgekommen (also mit numAPTS) is nur so ne late night überlegung
      */
     public int[] nodesInRadius(double r, double xThis, double yThis){
-        ListNode current = this;
+        ListNodeV2 current = start;
         int[] train_air = new int[2];
-        while (current.getValue() != null) {
+        while (current!= null) {
             double xCurrent = current.getValue().getxCoord();
             double yCurrent = current.getValue().getyCoord();
             if (Math.abs(xCurrent - xThis) <= r && Math.abs(yCurrent - yThis) <= r) {
@@ -49,9 +47,9 @@ public class ListNode {
 
     //TODO temp nur so ein test zum debuggen meiner numAPTS methode
     public int[] nodesInRadiusV2(double r, double xThis, double yThis){
-        ListNode current = this;
+        ListNodeV2 current = start;
         int[] train_air = new int[2];
-        while (current.getValue() != null) {
+        while (current!= null) {
             double xCurrent = current.getValue().getxCoord();
             double yCurrent = current.getValue().getyCoord();
             if ((Math.abs(xCurrent - xThis)) <= r && (Math.abs(yCurrent - yThis)) <= r) {
@@ -72,7 +70,7 @@ public class ListNode {
     //Diese Methode soll nodesInRadius verwenden um die Anzahl aller Airports zu berechnen die n-viele Bahnhöfe, in einem Umkreis von r um sich haben
     public int numAPTS(double r, int n){
         int erg=0;
-        ListNode current = this;
+        ListNodeV2 current = start;
         while(current!=null){
 
             if(current.getValue()==null){
@@ -102,4 +100,36 @@ public class ListNode {
 
         return erg;
     }
+
+    public class ListNodeV2 {
+
+        private TransportNode value;
+        private ListNodeV2 next;
+
+        public ListNodeV2(){
+
+        }
+        public ListNodeV2(TransportNode tn){
+            value = tn;
+        }
+
+        public TransportNode getValue() {
+            return value;
+        }
+        public ListNodeV2 getNext() {
+            return next;
+        }
+
+        public void setValue(TransportNode value) {
+            this.value = value;
+        }
+        public void setNext(ListNodeV2 next) {
+            this.next = next;
+        }
+
+
+    }
+
+
 }
+

@@ -1,18 +1,22 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.io.*;
 
-public class Main {
+public class Main2 {
     public static void main(String[] args) {
-        ListNode list = new ListNode();
-        ListNode current = list;
+        List list = new List();
         String path = "data/junctions.csv";
+        long stTime = System.currentTimeMillis();
         try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {
+
             while(scn.hasNextLine()){
-                current.setValue(new TransportNode(scn.nextLine()));
-                current.setNext(new ListNode());
-                current = current.getNext();
+                //System.out.println(scn.nextLine());
+                //String n=scn.nextLine();
+                //System.out.println(n);
+                list.add(new TransportNode(scn.nextLine()));
             }
+            System.out.println("Finished reading");
         } catch(FileNotFoundException e){
             System.out.println("File not found!");
             System.exit(1);
@@ -21,5 +25,6 @@ public class Main {
         int[] a = list.nodesInRadius(100, 1818.54657, 5813.29982);
         System.out.println(a[0] + " " + a[1]);
         System.out.println("Number of Airports: "+list.numAPTS(30.0,20));
+        System.out.println("Time: "+(System.currentTimeMillis()-stTime));
     }
 }
