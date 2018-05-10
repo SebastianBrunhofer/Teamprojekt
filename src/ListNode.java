@@ -19,5 +19,22 @@ public class ListNode {
         this.next = next;
     }
 
-    public 
+    public double nodesInRadius(double r, ListNode list){
+        ListNode current = list;
+        double counter = 0;
+        if (current.next.getValue() != null){
+            current = current.next;
+        }
+        double xCurrent = current.getValue().getxCoord();
+        double yCurrent = current.getValue().getyCoord();
+        double xThis = this.value.getxCoord();
+        double yThis = this.value.getyCoord();
+        if (Math.abs(xCurrent - xThis) <= r && Math.abs(yCurrent - yThis) <= r){
+            double distance = TransportNode.distance(current.value, this.value);
+            if (distance <= r){
+                counter++;
+            }
+        }
+        return counter;
+    }
 }
