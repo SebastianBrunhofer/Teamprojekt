@@ -7,6 +7,9 @@ public class TransportNode {
 
     public TransportNode(String s){
         String[] temp = s.split(";");
+        for (int i = 0; i < temp.length; i++) {
+            temp[i] = temp[i].trim();
+        }
         name = temp[0];
         xCoord = Double.parseDouble(temp[1]);
         yCoord = Double.parseDouble(temp[2]);
@@ -24,6 +27,12 @@ public class TransportNode {
     }
     public Type getType() {
         return type;
+    }
+
+    public static double distance(TransportNode a, TransportNode b){
+        double xDist = a.getxCoord() - b.getxCoord();
+        double yDist = a.getyCoord() - b.getyCoord();
+        return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
     }
 }
 
