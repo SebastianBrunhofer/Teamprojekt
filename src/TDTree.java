@@ -109,7 +109,7 @@ public class TDTree {
 
     public static void main(String[] args) {
         TDTree baum = new TDTree();
-        String path = "D:/Google Drive/#Uni/2.Semester/EP2/Teamaufgabe/data/junctions.csv";
+        String path = "C:/Users/Sebastian/Desktop/Teamaufgabe/data/junctions.csv";
         try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {
             while(scn.hasNextLine()){
