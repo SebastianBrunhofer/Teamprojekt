@@ -36,6 +36,7 @@ public class TransportNode {
     public void print() {
         System.out.println("Name: " + name + " x = " + xCoord + " y = " + yCoord + " Typ: " + type);
     }
+
     /*
      *  Berechnet die Distanz zwischen zwei Transportknotenpunkten
      */
