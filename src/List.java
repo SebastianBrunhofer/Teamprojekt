@@ -1,6 +1,20 @@
+import java.util.Scanner;
+
 public class List{
     public ListNodeV2 start;
 
+    public List(){}
+    public List(Scanner sc){
+        start = new ListNodeV2();
+        if (sc.hasNextLine()){
+            start.setValue(new TransportNode(sc.nextLine()));
+        }
+        ListNodeV2 current = start;
+        while(sc.hasNextLine()){
+            current.setNext(new ListNodeV2(new TransportNode(sc.nextLine())));
+            current = current.getNext();
+        }
+    }
 
     public void add(TransportNode neu){
         add(new ListNodeV2(neu));

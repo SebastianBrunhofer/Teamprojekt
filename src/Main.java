@@ -6,6 +6,7 @@ public class Main {
         ListNode list = new ListNode();
         ListNode current = list;
         String path = "data/junctions.csv";
+        long stTime = System.currentTimeMillis();
         try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {
             while(scn.hasNextLine()){
@@ -17,6 +18,7 @@ public class Main {
             System.out.println("File not found!");
             System.exit(1);
         }
+        System.out.println("Time: "+(System.currentTimeMillis()-stTime));
         //Testcases
         int[] a = list.nodesInRadius(100, 1818.54657, 5813.29982);
         System.out.println(a[0] + " " + a[1]);
