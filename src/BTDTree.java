@@ -1,10 +1,24 @@
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class BTDTree {
-    TDTreeNode root;
+    BTDTreeNode root;
+    double maxX=0;
+    double maxY =0;
+
+    double minY =Integer.MAX_VALUE;
+    double minX = Integer.MAX_VALUE;
+
+    int[] train_air = new int[2];
+
+    int debCount=0;
 
     public BTDTree(){
 
     }
-    public BTDTree(TDTreeNode r){
+    public BTDTree(BTDTreeNode r){
         root=r;
     }
     public void add(TransportNode d){
@@ -15,34 +29,34 @@ public class BTDTree {
         }
         else
         {
-            root=new TDTreeNode(d);
+            root=new BTDTreeNode(d);
         }
     }
 
 
 
-    public class TDTreeNode{
+    public class BTDTreeNode{
         private TransportNode data;
-        private TDTreeNode left;
-        private TDTreeNode right;
+        private BTDTreeNode left;
+        private BTDTreeNode right;
 
         //immer abwechelnd in der höhe des Binärbaums die größe überprüfen einmal das x vergleichen dann das y dann wieder x...
-        public TDTreeNode(){
+        public BTDTreeNode(){
 
         }
-        public TDTreeNode(TransportNode d){
+        public BTDTreeNode(TransportNode d){
             data=d;
         }
-        public TDTreeNode(TransportNode d, TDTreeNode l, TDTreeNode r){
+        public BTDTreeNode(TransportNode d, BTDTreeNode l, BTDTreeNode r){
             data=d;
             left =l;
             right=r;
         }
         public void add(TransportNode neu){
-            add(new TDTreeNode(neu),true);
+            add(new BTDTreeNode(neu),true);
 
         }
-        public void add(TDTreeNode neu, boolean chk){
+        public void add(BTDTreeNode neu, boolean chk){
             if(chk){ //damit in jeder ebene des Baumes abwechselnd jeweils nur x oder die y koordinate verglichen wird
 
                 if(neu.data.getxCoord()<data.getxCoord()){
@@ -50,8 +64,14 @@ public class BTDTree {
                     if(left!=null){
                         left.add(neu,!chk);
                     }
+
                     else {
                         left = neu;
+                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+
+                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
                     }
                 }
                 else{
@@ -61,6 +81,11 @@ public class BTDTree {
                     }
                     else {
                         right = neu;
+                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+
+                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
                     }
 
                 }
@@ -75,6 +100,11 @@ public class BTDTree {
                     }
                     else {
                         left = neu;
+                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+
+                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
                     }
                 }
                 else{
@@ -84,6 +114,11 @@ public class BTDTree {
                     }
                     else {
                         right = neu;
+                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+
+                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
                     }
 
                 }
@@ -91,11 +126,154 @@ public class BTDTree {
             }
         }
 
+        private void zeichR(){
+            if(left!=null){
+                left.zeichR();
+            }
+            if(data.getType()==Type.AIRPORT){
+                StdDraw.setPenColor(StdDraw.RED);
+                StdDraw.setPenRadius(0.005);
+            }
+            else{
+                StdDraw.setPenColor(StdDraw.BLUE);
+                StdDraw.setPenRadius(0.002);
+            }
 
+            StdDraw.point(data.getxCoord(),data.getyCoord());
+
+            if(right!=null){
+                right.zeichR();
+            }
+        }
+
+        public void nodesInRadius(double r, double xThis, double yThis){
+
+            if(left!=null){
+                left.nodesInRadius( r,  xThis, yThis);
+            }
+            if (Math.abs(data.getxCoord() - xThis) <= r && Math.abs(data.getyCoord() - yThis) <= r) {
+                double distance = TransportNode.distance(data, new TransportNode(xThis, yThis));
+                if (distance <= r) {
+                    if (data.getType() == Type.AIRPORT){
+                        train_air[1]++;
+                    } else {
+                        train_air[0]++;
+                    }
+                }
+            }
+
+            if(right!=null){
+                right.nodesInRadius( r,  xThis, yThis);
+            }
+        }
+
+        public int[] nodesInRadiusV2(double r, double xThis, double yThis){
+            int[] train_air2 = new int[2];
+            if(left!=null){
+                int[] temp = left.nodesInRadiusV2( r,  xThis, yThis);
+                train_air2[0]+=temp[0];
+                train_air2[1]+=temp[1];
+            }
+
+            if (Math.abs(data.getxCoord() - xThis) <= r && Math.abs(data.getyCoord() - yThis) <= r) {
+                double distance = TransportNode.distance(data, new TransportNode(xThis, yThis));
+                if (distance <= r) {
+                    if (data.getType() == Type.AIRPORT){
+                        train_air2[1]++;
+                    } else {
+                        train_air2[0]++;
+                    }
+                }
+            }
+
+            if(right!=null){
+                int[] temp = right.nodesInRadiusV2( r,  xThis, yThis);
+                train_air2[0]+=temp[0];
+                train_air2[1]+=temp[1];
+            }
+
+            return train_air2;
+        }
+
+        public int numAPTS(double r, int n){
+            int erg=0;
+            if(left!=null){
+                erg+=left.numAPTS(r,n);
+            }
+
+            if(data.getType().equals(Type.AIRPORT))
+            {
+
+                if(nodesInRadiusV2(r,data.getxCoord(),data.getyCoord())[0]>=n){
+                    erg++;
+                    //System.out.println("Found!");
+                }
+
+            }
+            else {
+                //System.out.println("Not");
+            }
+
+
+            if(right!=null){
+                erg+=right.numAPTS(r,n);
+            }
+
+
+            return erg;
+        }
+
+
+    }
+    public void zeichnen(){
+        StdDraw.setCanvasSize(1500,800);
+        StdDraw.setXscale(minX,maxX);
+        StdDraw.setYscale(minY,maxY);
+        StdDraw.enableDoubleBuffering();
+        root.zeichR();
+        StdDraw.show();
+
+    }
+
+    public void drawRadius(double r,double x, double y){
+        Color h = StdDraw.getPenColor();
+        StdDraw.setPenRadius(0.004);
+        StdDraw.setPenColor(StdDraw.GREEN);
+
+        StdDraw.circle(x,y,r);
+
+        StdDraw.setPenRadius(0.002);
+        StdDraw.setPenColor(h);
+        StdDraw.show();
     }
 
     public static void main(String[] args) {
         BTDTree baum = new BTDTree();
+        String path = "data/junctions.csv";
+        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
+        {
+            while(scn.hasNextLine()){
+                baum.add(new TransportNode(scn.nextLine()));
+            }
+        } catch(FileNotFoundException e){
+            System.out.println("File not found!");
+            System.exit(1);
+        }
+
+        System.out.println("X: "+baum.minX+" -> "+baum.maxX);
+        System.out.println("Y: "+baum.minY+" -> "+baum.maxY);
+        baum.zeichnen();
+        baum.drawRadius(100, 1818.54657, 5813.29982);
+        baum.root.nodesInRadius(100, 1818.54657, 5813.29982);
+        System.out.println(baum.train_air[0] + " " + baum.train_air[1]);
+
+        int[] a = baum.root.nodesInRadiusV2(100, 1818.54657, 5813.29982);
+        //int[] a = baum.root.nodesInRadiusV2(20, 3000, 2000);
+        System.out.println(a[0] + " : " + a[1]);
+
+        System.out.println("DebCounter: "+baum.debCount);
+
+        System.out.println("Number of Airports: "+baum.root.numAPTS(30.0,20));
 
     }
 }
