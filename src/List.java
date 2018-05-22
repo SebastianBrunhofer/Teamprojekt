@@ -1,37 +1,36 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 public class List{
-    public ListNodeV2 start;
+    public ListNode start;
 
-
-    public void add(TransportNode neu){
-        add(new ListNodeV2(neu));
-    }
-
-    public void add(ListNodeV2 neu){
-        if(start!=null){
-            ListNodeV2 curr = start;
-            while(curr.getNext() !=null){
-                curr = curr.getNext();
+    public List(String path){
+        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
+        {
+            start = new ListNode();
+            if (scn.hasNextLine()){
+                start.setValue(new TransportNode(scn.nextLine()));
             }
-            curr.setNext(neu);
-        }
-        else{
-            start=neu;
+            ListNode current = start;
+            while(scn.hasNextLine()){
+                current.setNext(new ListNode(new TransportNode(scn.nextLine())));
+                current = current.getNext();
+            }
+        } catch(FileNotFoundException e){
+            System.out.println("File not found!");
+            System.exit(1);
         }
     }
-
-    /*
-     *  Berechnet die Anzahl der Bahnhöfe und Flughäfen in einem Radius von r um den Punkt (xThis, yThis)
-     *
-     */
+    //Berechnet die Anzahl der Bahnhöfe und Flughäfen in einem Radius von r um den Punkt (xThis, yThis)
 
     public int[] nodesInRadius(double r, double xThis, double yThis){
-        ListNodeV2 current = start;
+        ListNode current = start;
         int[] train_air = new int[2];
         while (current!= null) {
             double xCurrent = current.getValue().getxCoord();
             double yCurrent = current.getValue().getyCoord();
             if (Math.abs(xCurrent - xThis) <= r && Math.abs(yCurrent - yThis) <= r) {
-                double distance = TransportNode.distance(current.value, new TransportNode(xThis, yThis));
+                double distance = TransportNode.distance(current.getValue(), new TransportNode(xThis, yThis));
                 if (distance <= r) {
                     if (current.getValue().getType() == Type.AIRPORT){
                         train_air[1]++;
@@ -40,7 +39,7 @@ public class List{
                     }
                 }
             }
-            current = current.next;
+            current = current.getNext();
         }
         return train_air;
     }
@@ -48,19 +47,19 @@ public class List{
     //Diese Methode soll nodesInRadius verwenden um die Anzahl aller Airports zu berechnen die n-viele Bahnhöfe, in einem Umkreis von r um sich haben
     public int numAPTS(double r, int n){
         int erg=0;
-        ListNodeV2 current = start;
+        ListNode current = start;
         while(current!=null){
 
             if(current.getValue()==null){
                 System.out.println("Value is NULL!");
             }
             else{
-                if(current.value.getType()==null){
+                if(current.getValue().getType()==null){
                     System.out.println("Type is NULL!");
                 }
                 else{
                     if(current.getValue().getType().equals(Type.AIRPORT)){
-                        if(nodesInRadius(r,current.value.getxCoord(),current.value.getyCoord())[0]>=n){
+                        if(nodesInRadius(r,current.getValue().getxCoord(),current.getValue().getyCoord())[0]>=n){
                             erg++;
                             //System.out.println("Found!");
                         }
@@ -73,41 +72,10 @@ public class List{
 
             }
 
-            current=current.next;
+            current=current.getNext();
         }
 
         return erg;
     }
-
-    public class ListNodeV2 {
-
-        private TransportNode value;
-        private ListNodeV2 next;
-
-        public ListNodeV2(){
-
-        }
-        public ListNodeV2(TransportNode tn){
-            value = tn;
-        }
-
-        public TransportNode getValue() {
-            return value;
-        }
-        public ListNodeV2 getNext() {
-            return next;
-        }
-
-        public void setValue(TransportNode value) {
-            this.value = value;
-        }
-        public void setNext(ListNodeV2 next) {
-            this.next = next;
-        }
-
-
-    }
-
-
 }
 

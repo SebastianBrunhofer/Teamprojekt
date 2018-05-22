@@ -5,6 +5,9 @@ public class ListNode {
     private ListNode next;
 
     public ListNode(){}
+    public ListNode(TransportNode tn){
+        value = tn;
+    }
 
     public TransportNode getValue() {
         return value;
