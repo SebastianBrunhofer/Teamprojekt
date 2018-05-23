@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class BTDTree {
+public class BTDTree implements Datastructure{
     BTDTreeNode root;
     double maxX=0;
     double maxY =0;
@@ -127,7 +127,7 @@ public class BTDTree {
         }
 
         //nodesInRadius Methode mit globalem Array zum testen
-        public void nodesInRadius(double r, double xThis, double yThis){
+        public void nodesInRadiusDEB(double r, double xThis, double yThis){
 
             if(left!=null){
                 left.nodesInRadius( r,  xThis, yThis);
@@ -150,11 +150,12 @@ public class BTDTree {
 
 
         }
+
         //normale nodesInRadius Methode mit Rekursion und internen lokalen Arrays
-        public int[] nodesInRadiusV2(double r, double xThis, double yThis){
+        public int[] nodesInRadius(double r, double xThis, double yThis){
             int[] train_air2 = new int[2];
             if(left!=null){
-                int[] temp = left.nodesInRadiusV2( r,  xThis, yThis);
+                int[] temp = left.nodesInRadius( r,  xThis, yThis);
                 train_air2[0]+=temp[0];
                 train_air2[1]+=temp[1];
             }
@@ -171,7 +172,7 @@ public class BTDTree {
             }
 
             if(right!=null){
-                int[] temp = right.nodesInRadiusV2( r,  xThis, yThis);
+                int[] temp = right.nodesInRadius( r,  xThis, yThis);
                 train_air2[0]+=temp[0];
                 train_air2[1]+=temp[1];
             }
@@ -192,7 +193,7 @@ public class BTDTree {
             if(data.getType().equals(Type.AIRPORT))
             {
 
-                if(nodesInRadiusV2(r,data.getxCoord(),data.getyCoord())[0]>=n){
+                if(nodesInRadius(r,data.getxCoord(),data.getyCoord())[0]>=n){
                     erg++;
                 }
 
@@ -228,6 +229,14 @@ public class BTDTree {
                 right.zeichR();
             }
         }
+    }
+
+    public int[] nodesInRadius(double r, double xThis, double yThis){
+        return root.nodesInRadius(r,xThis,yThis);
+    }
+
+    public int numAPTS(double r, int n){
+        return root.numAPTS(r,n);
     }
 
     //Methode um alle Flughäfen und Bahnhöfe auf einer Karte anzuzeigen
@@ -271,37 +280,36 @@ public class BTDTree {
         System.out.println("Y: "+baum.minY+" -> "+baum.maxY);
         baum.zeichnen();
         baum.drawRadius(100, 1818.54657, 5813.29982);
-        baum.root.nodesInRadius(100000, 1818.54657, 5813.29982);
+        //baum.root.nodesInRadius(100000, 1818.54657, 5813.29982);
         //System.out.println(baum.train_air[0] + " " + baum.train_air[1]);
 
-        int[] a = baum.root.nodesInRadiusV2(10000, 1818.54657, 5813.29982);
-        //int[] a = baum.root.nodesInRadiusV2(20, 3000, 2000);
+        int[] a = baum.nodesInRadius(10000, 1818.54657, 5813.29982);
         System.out.println(a[0] + " : " + a[1]);
 
-        a = baum.root.nodesInRadiusV2(10000, 1818.54657, 2000.29982);
+        a = baum.nodesInRadius(10000, 1818.54657, 2000.29982);
         System.out.println(a[0] + " : " + a[1]);
 
-        a = baum.root.nodesInRadiusV2(10000, 1818.54657, -300.29982);
+        a = baum.nodesInRadius(10000, 1818.54657, -300.29982);
         System.out.println(a[0] + " : " + a[1]);
 
-        a = baum.root.nodesInRadiusV2(10000, -1818.54657, 5813.29982);
+        a = baum.nodesInRadius(10000, -1818.54657, 5813.29982);
         System.out.println(a[0] + " : " + a[1]);
 
-        a = baum.root.nodesInRadiusV2(10000, -1818.54657, -5813.29982);
+        a = baum.nodesInRadius(10000, -1818.54657, -5813.29982);
         System.out.println(a[0] + " : " + a[1]);
 
 
         long start = System.currentTimeMillis();
-        System.out.println("Number of Airports: "+baum.root.numAPTS(15,20));
+        System.out.println("Number of Airports: "+baum.numAPTS(15,20));
         System.out.println(baum.debCount);
         baum.debCount=0;
-        System.out.println("Number of Airports: "+baum.root.numAPTS(15,1));
+        System.out.println("Number of Airports: "+baum.numAPTS(15,1));
         System.out.println(baum.debCount);
         baum.debCount=0;
-        System.out.println("Number of Airports: "+baum.root.numAPTS(15,5));
+        System.out.println("Number of Airports: "+baum.numAPTS(15,5));
         System.out.println(baum.debCount);
         baum.debCount=0;
-        System.out.println("Number of Airports: "+baum.root.numAPTS(15,10));
+        System.out.println("Number of Airports: "+baum.numAPTS(15,10));
         System.out.println(baum.debCount);
         baum.debCount=0;
         double time = (System.currentTimeMillis()-start);

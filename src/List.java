@@ -1,7 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-public class List{
+
+public class List implements Datastructure{
     public ListNode start;
 
     public List(String path){
@@ -21,8 +22,9 @@ public class List{
             System.exit(1);
         }
     }
-    //Berechnet die Anzahl der Bahnhöfe und Flughäfen in einem Radius von r um den Punkt (xThis, yThis)
 
+
+    //Berechnet die Anzahl der Bahnhöfe und Flughäfen in einem Radius von r um den Punkt (xThis, yThis)
     public int[] nodesInRadius(double r, double xThis, double yThis){
         ListNode current = start;
         int[] train_air = new int[2];
@@ -42,6 +44,23 @@ public class List{
             current = current.getNext();
         }
         return train_air;
+    }
+
+    public void add(TransportNode neu){
+        add(new ListNode(neu));
+    }
+
+    public void add(ListNode neu){
+        if(start!=null){
+            ListNode curr = start;
+            while(curr.getNext() !=null){
+                curr = curr.getNext();
+            }
+            curr.setNext(neu);
+        }
+        else{
+            start=neu;
+        }
     }
 
     //Diese Methode soll nodesInRadius verwenden um die Anzahl aller Airports zu berechnen die n-viele Bahnhöfe, in einem Umkreis von r um sich haben

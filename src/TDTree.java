@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class TDTree {
+public class TDTree implements Datastructure {
     TDTreeNode root;
 
     public TDTree(){
@@ -23,7 +23,13 @@ public class TDTree {
         }
     }
 
+    public int[] nodesInRadius(double radius, double x, double y){
+        return root.numNodes(radius,x,y);
+    }
 
+    public int numAPTS(double radius, int anzahl){
+        return root.numAPTS(radius,anzahl);
+    }
 
     public class TDTreeNode{
         private TransportNode data;
