@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -5,16 +6,38 @@ import java.util.Scanner;
 public class List implements Datastructure{
     public ListNode start;
 
+    //max/min Variablen fürs zeichnen der Karte
+    double maxX=0;
+    double maxY =0;
+
+    double minY =Integer.MAX_VALUE;
+    double minX = Integer.MAX_VALUE;
+
     public List(String path){
+        construct(path);
+    }
+    public void construct(String path){
         try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {
             start = new ListNode();
             if (scn.hasNextLine()){
                 start.setValue(new TransportNode(scn.nextLine()));
+                if(start.getValue().getxCoord()<minX)minX=start.getValue().getxCoord();
+                if(start.getValue().getxCoord()>maxX)maxX=start.getValue().getxCoord();
+
+                if(start.getValue().getyCoord()<minY)minY=start.getValue().getyCoord();
+                if(start.getValue().getyCoord()>maxY)maxY=start.getValue().getyCoord();
             }
             ListNode current = start;
             while(scn.hasNextLine()){
                 current.setNext(new ListNode(new TransportNode(scn.nextLine())));
+
+                if(current.getNext().getValue().getxCoord()<minX)minX=current.getNext().getValue().getxCoord();
+                if(current.getNext().getValue().getxCoord()>maxX)maxX=current.getNext().getValue().getxCoord();
+
+                if(current.getNext().getValue().getyCoord()<minY)minY=current.getNext().getValue().getyCoord();
+                if(current.getNext().getValue().getyCoord()>maxY)maxY=current.getNext().getValue().getyCoord();
+
                 current = current.getNext();
             }
         } catch(FileNotFoundException e){
@@ -61,8 +84,52 @@ public class List implements Datastructure{
         else{
             start=neu;
         }
+        if(neu.getValue().getxCoord()<minX)minX=neu.getValue().getxCoord();
+        if(neu.getValue().getxCoord()>maxX)maxX=neu.getValue().getxCoord();
+
+        if(neu.getValue().getyCoord()<minY)minY=neu.getValue().getyCoord();
+        if(neu.getValue().getyCoord()>maxY)maxY=neu.getValue().getyCoord();
     }
 
+    public void zeichnen(){
+        StdDraw.setCanvasSize(1500,800);
+        System.out.println("X: "+minX+" -> "+maxX);
+        System.out.println("Y: "+minY+" -> "+maxY);
+        StdDraw.setXscale(minX,maxX);
+        StdDraw.setYscale(minY,maxY);
+        StdDraw.enableDoubleBuffering();
+        ListNode curr = start;
+        while(curr.getNext() !=null){
+
+            if(curr.getValue().getType()==Type.AIRPORT){
+                StdDraw.setPenColor(StdDraw.RED);
+                StdDraw.setPenRadius(0.005);
+            }
+            else{
+                StdDraw.setPenColor(StdDraw.BLUE);
+                StdDraw.setPenRadius(0.002);
+            }
+
+            StdDraw.point(curr.getValue().getxCoord(),curr.getValue().getyCoord());
+            curr = curr.getNext();
+        }
+
+        StdDraw.show();
+
+    }
+
+    //Methode um einen Radius auf der Karte einzuzeichnen
+    public void drawRadius(double r,double x, double y){
+        Color h = StdDraw.getPenColor();
+        StdDraw.setPenRadius(0.004);
+        StdDraw.setPenColor(StdDraw.GREEN);
+
+        StdDraw.circle(x,y,r);
+
+        StdDraw.setPenRadius(0.002);
+        StdDraw.setPenColor(h);
+        StdDraw.show();
+    }
     //Diese Methode soll nodesInRadius verwenden um die Anzahl aller Airports zu berechnen die n-viele Bahnhöfe, in einem Umkreis von r um sich haben
     public int numAPTS(double r, int n){
         int erg=0;

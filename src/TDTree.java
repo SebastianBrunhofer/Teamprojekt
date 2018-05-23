@@ -22,6 +22,17 @@ public class TDTree implements Datastructure {
             root=new TDTreeNode(d);
         }
     }
+    public void construct(String path){
+        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
+        {
+            while(scn.hasNextLine()){
+                add(new TransportNode(scn.nextLine()));
+            }
+        } catch(FileNotFoundException e){
+            System.out.println("File not found!");
+            System.exit(1);
+        }
+    }
 
     public int[] nodesInRadius(double radius, double x, double y){
         return root.numNodes(radius,x,y);
@@ -116,10 +127,10 @@ public class TDTree implements Datastructure {
         public int[] numNodes(double x, double y, double radius, boolean chk, int[] numAPTS) {
             if (inRadius(x, y, radius)) {
                 if (data.getType() == Type.AIRPORT) {
-                    numAPTS[0]++;
+                    numAPTS[1]++;
                 }
                 if (data.getType() == Type.TRAINSTATION) {
-                    numAPTS[1]++;
+                    numAPTS[0]++;
                 }
             }
             if (chk) {
@@ -185,9 +196,8 @@ public class TDTree implements Datastructure {
             if(data.getType().equals(Type.AIRPORT))
             {
 
-                if(numNodes(r,data.getxCoord(),data.getyCoord())[1]>=n){
+                if(numNodes(r,data.getxCoord(),data.getyCoord())[0]>=n){
                     erg++;
-                    //System.out.println("Found!");
                 }
 
             }
@@ -247,130 +257,3 @@ public class TDTree implements Datastructure {
         System.out.println("Number of Airports: "+baum.root.numAPTS(15,20));
     }
 }
-/*  old TDTree
-
-public class TDTree {
-    TDTreeNode root;
-
-    public TDTree(){
-
-    }
-    public TDTree(TDTreeNode r){
-        root=r;
-    }
-    public void add(TransportNode d){
-
-        if(root!=null)
-        {
-            root.add(d);
-        }
-        else
-        {
-            root=new TDTreeNode(d);
-        }
-    }
-
-
-
-    public class TDTreeNode{
-        private TransportNode data;
-        private TDTreeNode left;
-        private TDTreeNode right;
-
-        //immer abwechelnd in der höhe des Binärbaums die größe überprüfen einmal das x vergleichen dann das y dann wieder x...
-        public TDTreeNode(){
-
-        }
-        public TDTreeNode(TransportNode d){
-            data=d;
-        }
-        public TDTreeNode(TransportNode d, TDTreeNode l, TDTreeNode r){
-            data=d;
-            left =l;
-            right=r;
-        }
-        public void add(TransportNode neu){
-            add(new TDTreeNode(neu),true);
-
-        }
-        public void add(TDTreeNode neu, boolean chk){
-            if(chk){ //damit in jeder ebene des Baumes abwechselnd jeweils nur x oder die y koordinate verglichen wird
-
-                if(neu.data.getxCoord()<data.getxCoord()){
-
-                    if(left!=null){
-                        left.add(neu,!chk);
-                    }
-                    else {
-                        left = neu;
-                    }
-                }
-                else{
-
-                    if(right!=null){
-                        right.add(neu,!chk);
-                    }
-                    else {
-                        right = neu;
-                    }
-
-                }
-
-            }
-            else{
-
-                if(neu.data.getyCoord()<data.getyCoord()){
-
-                    if(left!=null){
-                        left.add(neu,!chk);
-                    }
-                    else {
-                        left = neu;
-                    }
-                }
-                else{
-
-                    if(right!=null){
-                        right.add(neu,!chk);
-                    }
-                    else {
-                        right = neu;
-                    }
-
-                }
-
-            }
-        }
-
-        public void print(){
-            if(left!=null){
-                left.print();
-            }
-            data.print();
-            if(right!=null){
-                right.print();
-            }
-        }
-
-    }
-
-    public static void main(String[] args) {
-        TDTree baum = new TDTree();
-        String path = "data/junctions.csv";
-
-        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
-        {
-            while(scn.hasNextLine()){
-                //System.out.println(scn.nextLine());
-                TransportNode neu = new TransportNode(scn.nextLine());
-                neu.print();
-                //System.out.println(neu.getName());
-                baum.add(neu);
-            }
-        } catch(FileNotFoundException e){
-            System.out.println("File not found!");
-            System.exit(1);
-        }
-        baum.root.print();
-    }
-}*/

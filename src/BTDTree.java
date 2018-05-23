@@ -34,6 +34,17 @@ public class BTDTree implements Datastructure{
     }
 
 
+    public void construct(String path){
+        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
+        {
+            while(scn.hasNextLine()){
+                add(new TransportNode(scn.nextLine()));
+            }
+        } catch(FileNotFoundException e){
+            System.out.println("File not found!");
+            System.exit(1);
+        }
+    }
 
     public class BTDTreeNode{
         private TransportNode data;
@@ -125,6 +136,7 @@ public class BTDTree implements Datastructure{
 
             }
         }
+
 
         //nodesInRadius Methode mit globalem Array zum testen
         public void nodesInRadiusDEB(double r, double xThis, double yThis){
@@ -229,7 +241,7 @@ public class BTDTree implements Datastructure{
                 right.zeichR();
             }
         }
-    }
+    }//TreeNode ende
 
     public int[] nodesInRadius(double r, double xThis, double yThis){
         return root.nodesInRadius(r,xThis,yThis);
