@@ -205,7 +205,7 @@ public class BTDTree implements Datastructure{
             if(data.getType().equals(Type.AIRPORT))
             {
 
-                if(nodesInRadius(r,data.getxCoord(),data.getyCoord())[0]>=n){
+                if(root.nodesInRadius(r,data.getxCoord(),data.getyCoord())[0]>=n){
                     erg++;
                 }
 
