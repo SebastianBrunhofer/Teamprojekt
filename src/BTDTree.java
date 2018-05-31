@@ -24,24 +24,16 @@ public class BTDTree implements Datastructure{
         root=r;
     }
     public void add(TransportNode d){
-
-        if(root!=null)
-        {
+        if(root!=null) {
             root.add(d);
-        }
-        else
-        {
+        } else {
             root=new BTDTreeNode(d);
         }
     }
     public void addV2(TransportNode d,ArrayList<TransportNode> arr){
-
-        if(root!=null)
-        {
+        if(root!=null) {
             root.addV2(d,arr);
-        }
-        else
-        {
+        } else {
             root=new BTDTreeNode(d);
         }
     }
@@ -59,7 +51,6 @@ public class BTDTree implements Datastructure{
     }
     public void constructV2(String path){
         ArrayList<TransportNode> arr=new ArrayList<TransportNode>();
-
         try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {
             while(scn.hasNextLine()){
@@ -70,13 +61,37 @@ public class BTDTree implements Datastructure{
             System.out.println("File not found!");
             System.exit(1);
         }
-
-        for (int i = 0; i < arr.size(); i++) {
-            addV2(arr.get(i),arr);
-            System.out.println(i);
-        }
-
+        construct(arr, true);
     }
+    private void construct(ArrayList<TransportNode> arr, boolean chk){
+        int median = arr.size() / 2;
+        if (chk) {
+            arr.sort(Comparator.comparingDouble(TransportNode::getxCoord));
+        } else {
+            arr.sort(Comparator.comparingDouble(TransportNode::getyCoord));
+        }
+        add(arr.get(median));
+        if (median > 0) {
+            ArrayList<TransportNode> left = splitAL(arr, 0, median - 1);
+            construct(left, !chk);
+        } else {
+            add(arr.get(0));
+        }
+        if (median < arr.size()) {
+            ArrayList<TransportNode> right = splitAL(arr, median + 1, arr.size());
+            construct(right, !chk);
+        } else {
+            add(arr.get(arr.size()));
+        }
+    }
+    private static ArrayList splitAL(ArrayList old, int indexSt, int indexEnd){
+        ArrayList neu = new ArrayList();
+        for (int i = indexSt; i < indexEnd; i++) {
+            neu.add(old.get(i));
+        }
+        return neu;
+    }
+
 
     public class BTDTreeNode{
         private TransportNode data;
