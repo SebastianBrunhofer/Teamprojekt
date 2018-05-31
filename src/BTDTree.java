@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class BTDTree implements Datastructure{
@@ -32,7 +34,17 @@ public class BTDTree implements Datastructure{
             root=new BTDTreeNode(d);
         }
     }
+    public void addV2(TransportNode d,ArrayList<TransportNode> arr){
 
+        if(root!=null)
+        {
+            root.addV2(d,arr);
+        }
+        else
+        {
+            root=new BTDTreeNode(d);
+        }
+    }
 
     public void construct(String path){
         try(Scanner scn = new Scanner(new File(path),"UTF-8"))
@@ -44,6 +56,26 @@ public class BTDTree implements Datastructure{
             System.out.println("File not found!");
             System.exit(1);
         }
+    }
+    public void constructV2(String path){
+        ArrayList<TransportNode> arr=new ArrayList<TransportNode>();
+
+        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
+        {
+            while(scn.hasNextLine()){
+                String temp = scn.nextLine();
+                arr.add(new TransportNode(temp));
+            }
+        } catch(FileNotFoundException e){
+            System.out.println("File not found!");
+            System.exit(1);
+        }
+
+        for (int i = 0; i < arr.size(); i++) {
+            addV2(arr.get(i),arr);
+            System.out.println(i);
+        }
+
     }
 
     public class BTDTreeNode{
@@ -137,6 +169,95 @@ public class BTDTree implements Datastructure{
             }
         }
 
+        public ArrayList splitAL(ArrayList old, int indexSt, int indexEnd){
+            ArrayList neu = new ArrayList();
+            for (int i = indexSt; i < indexEnd; i++) {
+                neu.add(old.get(i));
+            }
+            return neu;
+        }
+
+        public void addV2(TransportNode neu,ArrayList<TransportNode> arr){
+            addV2(new BTDTreeNode(neu),true,arr);
+        }
+
+        public void addV2(BTDTreeNode neu, boolean chk, ArrayList<TransportNode> arr){
+            int median=(int)Math.floor(arr.size()/2);
+            System.out.println("median: "+median);
+            if(chk){ //damit in jeder ebene des Baumes abwechselnd jeweils nur x oder die y koordinate verglichen wird
+                arr.sort(Comparator.comparingDouble(TransportNode::getxCoord));
+
+                if(neu.data.getxCoord()<arr.get(median).getxCoord()){ //den neuen x wert mit dem x-median des derzeitigen bereichs
+
+                    if(left!=null){
+                        left.addV2(neu,!chk,splitAL(arr,0,median-1));
+                    }
+
+                    else {
+                        left = neu;
+                        //für die zeichnen() methode
+                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+
+                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
+                    }
+                }
+                else{
+
+                    if(right!=null){
+                        right.addV2(neu,!chk,splitAL(arr,median+1,arr.size()));
+                    }
+                    else {
+                        right = neu;
+                        //für die zeichnen() methode
+                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+
+                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
+                    }
+
+                }
+
+            }
+            else{//nach y Koordinate überprüfen
+                arr.sort(Comparator.comparingDouble(TransportNode::getyCoord));
+
+
+                if(neu.data.getyCoord()<arr.get(median).getyCoord()){
+
+                    if(left!=null){
+                        left.addV2(neu,!chk,splitAL(arr,0,median-1));
+                    }
+                    else {
+                        left = neu;
+                        //für die zeichnen() methode
+                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+
+                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
+                    }
+                }
+                else{
+
+                    if(right!=null){
+                        right.addV2(neu,!chk,splitAL(arr,median+1, arr.size()));
+                    }
+                    else {
+                        right = neu;
+                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+
+                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
+                    }
+
+                }
+
+            }
+        }
 
         //nodesInRadius Methode mit globalem Array zum testen
         public void nodesInRadiusDEB(double r, double xThis, double yThis){
@@ -278,7 +399,8 @@ public class BTDTree implements Datastructure{
     public static void main(String[] args) {
         BTDTree baum = new BTDTree();
         String path = "data/junctions.csv";
-        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
+        baum.constructV2(path);
+        /*try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {
             while(scn.hasNextLine()){
                 baum.add(new TransportNode(scn.nextLine()));
@@ -286,7 +408,7 @@ public class BTDTree implements Datastructure{
         } catch(FileNotFoundException e){
             System.out.println("File not found!");
             System.exit(1);
-        }
+        }*/
 
         System.out.println("X: "+baum.minX+" -> "+baum.maxX);
         System.out.println("Y: "+baum.minY+" -> "+baum.maxY);
