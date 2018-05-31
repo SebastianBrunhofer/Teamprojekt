@@ -37,32 +37,31 @@ public class Main {
     }
 
     private static void menu( String path){
-        System.out.println("Menu: ");
-        System.out.println('\t' + "1:  run testcases");
-        System.out.println('\t' + "2:  test nodesInRadius wip");
-        System.out.println('\t' + "3:  test nodesInRadius (map Version) wip");
-        System.out.println('\t' + "4:  test numAPTS wip");
-        System.out.println('\t' + "0:  cancel");
+        System.out.println("Main Menu: " + '\n' + '\t' + "1:  run testcases" + '\n' + '\t' + "2:  test nodesInRadius" + '\n' + '\t' + "3:  test nodesInRadius (map Version) wip" + '\n' + '\t' + "4:  test numAPTS" + '\n' + '\t' + "0:  cancel");
         Scanner sc = new Scanner(System.in);
         while (sc.hasNext()){
             if (sc.hasNextInt()){
                 switch (sc.nextInt()){
                     case 0:
-                        System.exit(0);
-                        break;
+                        return;
                     case 1:
                         testcases(path);
                         break;
                     case 2:
-
+                        testNIRMenu(path);
                         break;
                     case 3:
-
+                        //Falls (zeitlich) machbar, ist hier Platz für eine Implementierung eines NIR-Tests mittels Eingabe auf der Karte. Falls nicht (mehr) möglich, bitte case entfernen und Zahlen dementsprechend anpassen.
                         break;
                     case 4:
-
+                        testNumAPTSMenu(path);
+                        break;
+                    default:
+                        System.out.println("Invalid entry");
                         break;
                 }
+            } else {
+                sc.next();
             }
         }
     }
@@ -201,5 +200,90 @@ public class Main {
         System.out.println(time+"ms");
 
         System.out.println("TDTree Test finished.");
+    }
+    private static void testNIRMenu(String path){
+        Datastructure datSt = null;
+        System.out.println("NIR-Menu: " + '\n' + '\t' + "1: test List.nodesInRadius" + '\n' + '\t' + "2: test TDTree.nodesInradius" + '\n' + '\t' + "0: cancel");
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNext()){
+            if (sc.hasNextInt()){
+                switch (sc.nextInt()){
+                    case 0:
+                        return;
+                    case 1:
+                        datSt = new List(path);
+                        break;
+                    case 2:
+                        datSt = new BTDTree();
+                        datSt.construct(path);
+                        break;
+                    default:
+                        System.out.println("Invalid entry");
+                        break;
+                }
+            } else {
+                sc.next();
+            }
+            if (datSt != null){
+                double radius = 0, xCoord = 0, yCoord = 0;
+                System.out.println("Enter X-Coordinate:");
+                if (sc.hasNextDouble()){
+                    xCoord = sc.nextDouble();
+                }
+                System.out.println("Enter Y-Coordinate:");
+                if (sc.hasNextDouble()){
+                    yCoord = sc.nextDouble();
+                }
+                System.out.println("Enter radius:");
+                if (sc.hasNextDouble()){
+                    radius = sc.nextDouble();
+                }
+                int[] temp = datSt.nodesInRadius(radius, xCoord, yCoord);
+                System.out.println("Airports: " + temp[1] + '\n' + "Trainstations: " + temp[0]);
+                System.out.println("returning to Main Menu");
+                return;
+            }
+        }
+    }
+    private static void testNumAPTSMenu(String path){
+        Datastructure datSt = null;
+        System.out.println("NumAPTS-Menu: " + '\n' + '\t' + "1: test List.numAPTS" + '\n' + '\t' + "2: test TDTree.numAPTS" + '\n' + '\t' + "0: cancel");
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNext()){
+            if (sc.hasNextInt()){
+                switch (sc.nextInt()){
+                    case 0:
+                        return;
+                    case 1:
+                        datSt = new List(path);
+                        break;
+                    case 2:
+                        datSt = new BTDTree();
+                        datSt.construct(path);
+                        break;
+                    default:
+                        System.out.println("Invalid entry");
+                        break;
+                }
+            } else {
+                sc.next();
+            }
+            if (datSt != null){
+                double radius = 0;
+                int num = 0;
+                System.out.println("Enter minimum number of surrounding trainstations");
+                if (sc.hasNextInt()){
+                    num = sc.nextInt();
+                }
+                System.out.println("Enter radius:");
+                if (sc.hasNextDouble()){
+                    radius = sc.nextDouble();
+                }
+                int temp = datSt.numAPTS(radius, num);
+                System.out.println(temp + " airports with at least " + num + " trainstations within a radius of " + radius + " units found.");
+                System.out.println("returning to Main Menu");
+                return;
+            }
+        }
     }
 }
