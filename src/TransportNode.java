@@ -7,13 +7,21 @@ public class TransportNode {
 
     public TransportNode(String s){
         String[] temp = s.split(";");
-        for (int i = 0; i < temp.length; i++) {
-            temp[i] = temp[i].trim();
+        int invCount = 0;
+        if (temp.length == 4) {
+            for (int i = 0; i < temp.length; i++) {
+                temp[i] = temp[i].trim();
+            }
+            name = temp[0];
+            xCoord = Double.parseDouble(temp[1]);
+            yCoord = Double.parseDouble(temp[2]);
+            type = temp[3].equals("AIRPORT") ? Type.AIRPORT : Type.TRAINSTATION;
+        } else {
+            invCount++;
         }
-        name = temp[0];
-        xCoord = Double.parseDouble(temp[1]);
-        yCoord = Double.parseDouble(temp[2]);
-        type = temp[3].equals("AIRPORT") ? Type.AIRPORT : Type.TRAINSTATION;
+        if (invCount > 0){
+            System.out.println(invCount);
+        }
     }
     public TransportNode(double xCoord, double yCoord){
         this.xCoord = xCoord;

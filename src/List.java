@@ -16,6 +16,7 @@ public class List implements Datastructure{
     public List(String path){
         construct(path);
     }
+
     public void construct(String path){
         try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {

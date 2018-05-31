@@ -121,10 +121,12 @@ public class TDTree implements Datastructure {
             }
         }
 
-        public int[] numNodes(double r, double x, double y){
-            return numNodes(x, y, r, true, new int[2]);
+        public int[] numNodes(double radius, double x, double y){
+            int[] numAPTS = new int[2];
+            numNodes(x, y, radius, true, numAPTS);
+            return numAPTS;
         }
-        public int[] numNodes(double x, double y, double radius, boolean chk, int[] numAPTS) {
+        public void numNodes(double x, double y, double radius, boolean chk, int[] numAPTS) {
             if (inRadius(x, y, radius)) {
                 if (data.getType() == Type.AIRPORT) {
                     numAPTS[1]++;
@@ -176,11 +178,10 @@ public class TDTree implements Datastructure {
                         break;
                 }
             }
-            return numAPTS;
         }
 
         private boolean inRadius(double x, double y, double radius){
-            return  Math.sqrt(Math.pow(data.getxCoord() - x, 2) + Math.pow(data.getyCoord() - y, 2)) <= radius;
+            return  TransportNode.distance(data, new TransportNode(x, y)) <= radius;
         }
 
         public int numAPTS(double r, int n){
@@ -196,7 +197,7 @@ public class TDTree implements Datastructure {
             if(data.getType().equals(Type.AIRPORT))
             {
 
-                if(numNodes(r,data.getxCoord(),data.getyCoord())[0]>=n){
+                if(root.numNodes(r, data.getxCoord(), data.getyCoord())[0]>=n){
                     erg++;
                 }
 
