@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class TDTree implements Datastructure {
+public class TDTree {
     TDTreeNode root;
 
     public TDTree(){

@@ -70,6 +70,31 @@ public class List implements Datastructure{
         return train_air;
     }
 
+    public int[] nodesInRadiusCOLOR(double r, double xThis, double yThis){
+        ListNode current = start;
+        int[] train_air = new int[2];
+        while (current!= null) {
+            double xCurrent = current.getValue().getxCoord();
+            double yCurrent = current.getValue().getyCoord();
+            if (Math.abs(xCurrent - xThis) <= r && Math.abs(yCurrent - yThis) <= r) {
+                double distance = TransportNode.distance(current.getValue(), new TransportNode(xThis, yThis));
+                if (distance <= r) {
+                    if (current.getValue().getType() == Type.AIRPORT){
+                        train_air[1]++;
+                    } else {
+                        train_air[0]++;
+                    }
+                    Color old = StdDraw.getPenColor();
+                    StdDraw.setPenColor(Color.YELLOW);
+                    StdDraw.point(xCurrent,yCurrent);
+                    StdDraw.setPenColor(old);
+                }
+            }
+            current = current.getNext();
+        }
+        return train_air;
+    }
+
     public void add(TransportNode neu){
         add(new ListNode(neu));
     }
@@ -104,7 +129,7 @@ public class List implements Datastructure{
 
             if(curr.getValue().getType()==Type.AIRPORT){
                 StdDraw.setPenColor(StdDraw.RED);
-                StdDraw.setPenRadius(0.005);
+                StdDraw.setPenRadius(0.002);
             }
             else{
                 StdDraw.setPenColor(StdDraw.BLUE);

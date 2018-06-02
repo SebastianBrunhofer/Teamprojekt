@@ -20,6 +20,9 @@ public class BTDTree implements Datastructure{
     public BTDTree(){
 
     }
+    public BTDTree(String p){
+        construct(p);
+    }
     public BTDTree(BTDTreeNode r){
         root=r;
     }
@@ -298,9 +301,18 @@ public class BTDTree implements Datastructure{
                 if (distance <= r) {
                     if (data.getType() == Type.AIRPORT){
                         train_air2[1]++;
+                        Color old = StdDraw.getPenColor();
+                        StdDraw.setPenColor(Color.YELLOW);
+                        StdDraw.point(data.getxCoord(),data.getyCoord());
+                        StdDraw.setPenColor(old);
                     } else {
                         train_air2[0]++;
+                        Color old = StdDraw.getPenColor();
+                        StdDraw.setPenColor(Color.YELLOW);
+                        StdDraw.point(data.getxCoord(),data.getyCoord());
+                        StdDraw.setPenColor(old);
                     }
+
                 }
             }
 
@@ -311,6 +323,181 @@ public class BTDTree implements Datastructure{
             }
 
             return train_air2;
+        }
+
+        public int[] nodesInRadiusOPTColor(double x, double y, double r, boolean chk){
+            int[] numAPTS = new int[2];
+            if (inRadius(x, y, r)) {
+                if (data.getType() == Type.AIRPORT) {
+                    numAPTS[1]++;
+
+                }
+                if (data.getType() == Type.TRAINSTATION) {
+                    numAPTS[0]++;
+
+                }
+                Color old = StdDraw.getPenColor();
+                StdDraw.setPenColor(Color.YELLOW);
+                StdDraw.point(data.getxCoord(),data.getyCoord());
+                StdDraw.setPenColor(old);
+            }
+            if (chk) {
+                switch (relToInterval(x, data.getxCoord(), r)){
+                    case 1:
+                        if (left != null) {
+                            int[] temp = left.nodesInRadiusOPTColor(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                    case 0:
+                        if (left != null) {
+                            int[] temp = left.nodesInRadiusOPTColor(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        if (right != null) {
+                            int[] temp = right.nodesInRadiusOPTColor(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                    case -1:
+                        if (right != null) {
+                            int[] temp = right.nodesInRadiusOPTColor(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                }
+            } else {
+                switch (relToInterval(y, data.getyCoord(), r)) {
+                    case 1:
+                        if (left != null) {
+                            int[] temp = left.nodesInRadiusOPTColor(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                    case 0:
+                        if (left != null) {
+                            int[] temp = left.nodesInRadiusOPTColor(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        if (right != null) {
+                            int[] temp = right.nodesInRadiusOPTColor(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                    case -1:
+                        if (right != null) {
+                            int[] temp = right.nodesInRadiusOPTColor(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                }
+            }
+            return numAPTS;
+        }
+
+        public int[] nodesInRadiusOPT(double x, double y, double r, boolean chk){
+            int[] numAPTS = new int[2];
+            if (inRadius(x, y, r)) {
+                if (data.getType() == Type.AIRPORT) {
+                    numAPTS[1]++;
+                    /*Color old = StdDraw.getPenColor();
+                    StdDraw.setPenColor(Color.YELLOW);
+                    StdDraw.point(data.getxCoord(),data.getyCoord());
+                    StdDraw.setPenColor(old);*/
+                }
+                if (data.getType() == Type.TRAINSTATION) {
+                    numAPTS[0]++;
+                    /*Color old = StdDraw.getPenColor();
+                    StdDraw.setPenColor(Color.YELLOW);
+                    StdDraw.point(data.getxCoord(),data.getyCoord());
+                    StdDraw.setPenColor(old);*/
+                }
+
+            }
+            if (chk) {
+                switch (relToInterval(x, data.getxCoord(), r)){
+                    case 1:
+                        if (left != null) {
+                            int[] temp = left.nodesInRadiusOPT(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                    case 0:
+                        if (left != null) {
+                            int[] temp = left.nodesInRadiusOPT(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        if (right != null) {
+                            int[] temp = right.nodesInRadiusOPT(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                    case -1:
+                        if (right != null) {
+                            int[] temp = right.nodesInRadiusOPT(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                }
+            } else {
+                switch (relToInterval(y, data.getyCoord(), r)) {
+                    case 1:
+                        if (left != null) {
+                            int[] temp = left.nodesInRadiusOPT(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                    case 0:
+                        if (left != null) {
+                            int[] temp = left.nodesInRadiusOPT(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        if (right != null) {
+                            int[] temp = right.nodesInRadiusOPT(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                    case -1:
+                        if (right != null) {
+                            int[] temp = right.nodesInRadiusOPT(x, y, r, !chk);
+                            numAPTS[0]+=temp[0];
+                            numAPTS[1]+=temp[1];
+                        }
+                        break;
+                }
+            }
+            return numAPTS;
+        }
+
+        private boolean inRadius(double x, double y, double radius){
+            //return  TransportNode.distance(data, new TransportNode(x, y)) <= radius;
+
+            return ( Math.abs(data.getxCoord() - x) <= radius && Math.abs(data.getyCoord() - y) <= radius) && (TransportNode.distance(data, new TransportNode(x, y))<= radius);
+        }
+
+        private int relToInterval(double center, double value, double radius){
+            if (value < (center - radius)){
+                return -1;
+            } else if (value > (center + radius)){
+                return 1;
+            } else {
+                return 0;
+            }
         }
 
         public int numAPTS(double r, int n){
@@ -326,7 +513,7 @@ public class BTDTree implements Datastructure{
             if(data.getType().equals(Type.AIRPORT))
             {
 
-                if(root.nodesInRadius(r,data.getxCoord(),data.getyCoord())[0]>=n){
+                if(root.nodesInRadiusOPT(data.getxCoord(),data.getyCoord(),r,true)[0]>=n){
                     erg++;
                 }
 
@@ -349,7 +536,7 @@ public class BTDTree implements Datastructure{
             }
             if(data.getType()==Type.AIRPORT){
                 StdDraw.setPenColor(StdDraw.RED);
-                StdDraw.setPenRadius(0.005);
+                StdDraw.setPenRadius(0.002);
             }
             else{
                 StdDraw.setPenColor(StdDraw.BLUE);
@@ -362,10 +549,20 @@ public class BTDTree implements Datastructure{
                 right.zeichR();
             }
         }
+
+
     }//TreeNode ende
 
+
+
     public int[] nodesInRadius(double r, double xThis, double yThis){
-        return root.nodesInRadius(r,xThis,yThis);
+        return root.nodesInRadiusOPT(xThis,yThis,r,true);
+        //return root.nodesInRadius(r,xThis,yThis);
+    }
+
+    public int[] nodesInRadiusCOLOR(double r, double xThis, double yThis){
+        return root.nodesInRadiusOPTColor(xThis,yThis,r,true);
+        //return root.nodesInRadius(r,xThis,yThis);
     }
 
     public int numAPTS(double r, int n){
@@ -396,10 +593,21 @@ public class BTDTree implements Datastructure{
         StdDraw.show();
     }
 
+    public void drawRoot(){
+        Color h = StdDraw.getPenColor();
+        StdDraw.setPenRadius(0.01);
+        StdDraw.setPenColor(StdDraw.GREEN);
+
+        StdDraw.point(root.data.getxCoord(),root.data.getyCoord());
+
+        StdDraw.setPenRadius(0.002);
+        StdDraw.setPenColor(h);
+        StdDraw.show();
+    }
     public static void main(String[] args) {
         BTDTree baum = new BTDTree();
         String path = "data/junctions.csv";
-        baum.constructV2(path);
+        baum.construct(path);
         /*try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {
             while(scn.hasNextLine()){
@@ -413,13 +621,16 @@ public class BTDTree implements Datastructure{
         System.out.println("X: "+baum.minX+" -> "+baum.maxX);
         System.out.println("Y: "+baum.minY+" -> "+baum.maxY);
         baum.zeichnen();
-        baum.drawRadius(100, 1818.54657, 5813.29982);
+
+
+        baum.drawRadius(10000, 1818.54657, 5813.29982);
         //baum.root.nodesInRadius(100000, 1818.54657, 5813.29982);
         //System.out.println(baum.train_air[0] + " " + baum.train_air[1]);
 
         int[] a = baum.nodesInRadius(10000, 1818.54657, 5813.29982);
         System.out.println(a[0] + " : " + a[1]);
-
+        StdDraw.show();
+        baum.drawRoot();
         a = baum.nodesInRadius(10000, 1818.54657, 2000.29982);
         System.out.println(a[0] + " : " + a[1]);
 
@@ -443,7 +654,7 @@ public class BTDTree implements Datastructure{
         System.out.println("Number of Airports: "+baum.numAPTS(15,5));
         System.out.println(baum.debCount);
         baum.debCount=0;
-        System.out.println("Number of Airports: "+baum.numAPTS(15,10));
+        System.out.println("Number of Airports: "+baum.numAPTS(10000,10));
         System.out.println(baum.debCount);
         baum.debCount=0;
         double time = (System.currentTimeMillis()-start);
