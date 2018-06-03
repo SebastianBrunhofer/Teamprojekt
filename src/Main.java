@@ -82,7 +82,7 @@ public class Main {
         return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
     }
     private static void menu( String path){
-        System.out.println("Main Menu: " + '\n' + '\t' + "1:  run testcases" + '\n' + '\t' + "2:  test nodesInRadius" + '\n' + '\t' + "3/4:  test nodesInRadius (map Version) 3 für Liste, 4 für Baum" + '\n' + '\t' + "5:  test numAPTS" + '\n' + '\t' + "0:  cancel");
+        System.out.println("Main Menu: " + '\n' + '\t' + "1:  run preset testcases" + '\n' + '\t' + "2:  number of trainstations / airports within a radius from point" + '\n' + '\t' + "3:  number of trainstations / airports within a radius from a point (map input)" + '\n' + '\t' + "5:  number of airports with a certain number of trainstations within a radius" + '\n' + '\t' + "0:  cancel");
         Scanner sc = new Scanner(System.in);
         while (sc.hasNext()){
             if (sc.hasNextInt()){
@@ -96,13 +96,7 @@ public class Main {
                         testNIRMenu(path);
                         break;
                     case 3:
-                        map(path,new List(path));
-                        break;
-
-                    case 4:
-                        map(path,new BTDTree(path));
-                        break;
-
+                        NIRMapMenu(path);
                     case 5:
                         testNumAPTSMenu(path);
                         break;
@@ -114,7 +108,7 @@ public class Main {
                 sc.next();
             }
             System.out.println();
-            System.out.println("Main Menu: " + '\n' + '\t' + "1:  run testcases" + '\n' + '\t' + "2:  test nodesInRadius" + '\n' + '\t' + "3/4:  test nodesInRadius (map Version) 3 für Liste, 4 für Baum" + '\n' + '\t' + "5:  test numAPTS" + '\n' + '\t' + "0:  cancel");
+            System.out.println("Main Menu: " + '\n' + '\t' + "1:  run preset testcases" + '\n' + '\t' + "2:  number of trainstations / airports within a radius from point" + '\n' + '\t' + "3:  number of trainstations / airports within a radius from a point (map input)" + '\n' + '\t' + "5:  number of airports with a certain number of trainstations within a radius" + '\n' + '\t' + "0:  cancel");
         }
 
     }
@@ -145,25 +139,25 @@ public class Main {
         a = datSt.nodesInRadius(10000, -1818.54657, -5813.29982);
         System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
 
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         System.out.println("Number of Airports: "+datSt.numAPTS(15,20));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
+        time = (System.nanoTime()-start);
+        System.out.println((double) (Math.round(time / 1000)) / 1000 + "ms");
 
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         System.out.println("Number of Airports: "+datSt.numAPTS(15,1));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
+        time = (System.nanoTime()-start);
+        System.out.println((double) (Math.round(time / 1000)) / 1000 + "ms");
 
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         System.out.println("Number of Airports: "+datSt.numAPTS(15,5));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
+        time = (System.nanoTime()-start);
+        System.out.println((double) (Math.round(time / 1000)) / 1000 + "ms");
 
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         System.out.println("Number of Airports: "+datSt.numAPTS(15,10));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
+        time = (System.nanoTime()-start);
+        System.out.println((double) (Math.round(time / 1000)) / 1000 + "ms");
 
         System.out.println("List Test finished.");
 
@@ -189,71 +183,71 @@ public class Main {
         a = datSt.nodesInRadius(10000, -1818.54657, -5813.29982);
         System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
 
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         System.out.println("Number of Airports: "+datSt.numAPTS(15,20));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
+        time = (System.nanoTime()-start);
+        System.out.println((double) (Math.round(time / 1000)) / 1000 + "ms");
 
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         System.out.println("Number of Airports: "+datSt.numAPTS(15,1));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
+        time = (System.nanoTime()-start);
+        System.out.println((double) (Math.round(time / 1000)) / 1000 + "ms");
 
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         System.out.println("Number of Airports: "+datSt.numAPTS(15,5));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
+        time = (System.nanoTime()-start);
+        System.out.println((double) (Math.round(time / 1000)) / 1000 + "ms");
 
-        start = System.currentTimeMillis();
+        start = System.nanoTime();
         System.out.println("Number of Airports: "+datSt.numAPTS(15,10));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
+        time = (System.nanoTime()-start);
+        System.out.println((double) (Math.round(time / 1000)) / 1000 + "ms");
 
         System.out.println("BTDTree Test finished.");
 
         System.out.println();
 
-        //TDTree Test
-        System.out.println("TDTree Test...");
-        TDTree tbaum = new TDTree();
-        tbaum.construct(path);
-        //Testcases
-        a = tbaum.nodesInRadius(10000, 1818.54657, 5813.29982);
-        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-
-        a = tbaum.nodesInRadius(10000, 1818.54657, 2000.29982);
-        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-
-        a = tbaum.nodesInRadius(10000, 1818.54657, -300.29982);
-        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-
-        a = tbaum.nodesInRadius(10000, -1818.54657, 5813.29982);
-        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-
-        a = tbaum.nodesInRadius(10000, -1818.54657, -5813.29982);
-        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-
-        start = System.currentTimeMillis();
-        System.out.println("Number of Airports: "+tbaum.numAPTS(15,20));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
-
-        start = System.currentTimeMillis();
-        System.out.println("Number of Airports: "+tbaum.numAPTS(15,1));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
-
-        start = System.currentTimeMillis();
-        System.out.println("Number of Airports: "+tbaum.numAPTS(15,5));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
-
-        start = System.currentTimeMillis();
-        System.out.println("Number of Airports: "+tbaum.numAPTS(15,10));
-        time = (System.currentTimeMillis()-start);
-        System.out.println(time+"ms");
-
-        System.out.println("TDTree Test finished.");
+//        //TDTree Test
+//        System.out.println("TDTree Test...");
+//        TDTree tbaum = new TDTree();
+//        tbaum.construct(path);
+//        //Testcases
+//        a = tbaum.nodesInRadius(10000, 1818.54657, 5813.29982);
+//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
+//
+//        a = tbaum.nodesInRadius(10000, 1818.54657, 2000.29982);
+//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
+//
+//        a = tbaum.nodesInRadius(10000, 1818.54657, -300.29982);
+//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
+//
+//        a = tbaum.nodesInRadius(10000, -1818.54657, 5813.29982);
+//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
+//
+//        a = tbaum.nodesInRadius(10000, -1818.54657, -5813.29982);
+//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
+//
+//        start = System.currentTimeMillis();
+//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,20));
+//        time = (System.currentTimeMillis()-start);
+//        System.out.println(time+"ms");
+//
+//        start = System.currentTimeMillis();
+//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,1));
+//        time = (System.currentTimeMillis()-start);
+//        System.out.println(time+"ms");
+//
+//        start = System.currentTimeMillis();
+//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,5));
+//        time = (System.currentTimeMillis()-start);
+//        System.out.println(time+"ms");
+//
+//        start = System.currentTimeMillis();
+//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,10));
+//        time = (System.currentTimeMillis()-start);
+//        System.out.println(time+"ms");
+//
+//        System.out.println("TDTree Test finished.");
     }
     private static void testNIRMenu(String path){
         Datastructure datSt = null;
@@ -296,6 +290,29 @@ public class Main {
                 System.out.println("returning to Main Menu...");
                 System.out.println();
                 return;
+            }
+        }
+    }
+    private static void NIRMapMenu(String path){
+        System.out.println("Map Menu:" + '\n' + '\t' + "1: run on datastructure list" + '\n' + '\t' + "2: run on datatstructure tree" + '\n' + '\t' + "0: cancel");
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNext()) {
+            if (sc.hasNextInt()) {
+                switch (sc.nextInt()) {
+                    case 0:
+                        System.exit(1);
+                    case 1:
+                        System.out.println("Input: left mousebutton to choose center, hold and drag to choose radius");
+                        map(path, new List(path));
+                        break;
+                    case 2:
+                        System.out.println("Input: left mousebutton to choose center, hold and drag to choose radius");
+                        map(path, new BTDTree(path));
+                    default:
+                        break;
+                }
+            } else {
+                sc.next();
             }
         }
     }

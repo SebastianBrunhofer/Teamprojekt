@@ -28,9 +28,10 @@ public class TransportNode {
         this.yCoord = yCoord;
     }
 
-    public String getName() {
-        return name;
-    }
+//    public String getName() {
+//        return name;
+//    }
+
     public double getxCoord() {
         return xCoord;
     }
