@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class TDTree {
+/*public class TDTree {
     TDTreeNode root;
 
     public TDTree(){
@@ -209,7 +209,7 @@ public class TDTree {
         return = -1 wenn außerhalb des Intervalls (kleiner)
         return = 0 wenn in Intervall
         return = 1 wenn außerhalb des Intervalls (größer)
-         */
+
         private int relToInterval(double center, double value, double radius){
             if (value < center - radius){
                 return -1;
@@ -257,4 +257,4 @@ public class TDTree {
         System.out.println(a[0] + " : " + a[1]);
         System.out.println("Number of Airports: "+baum.root.numAPTS(15,20));
     }
-}
+}*/

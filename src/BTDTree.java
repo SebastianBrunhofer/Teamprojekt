@@ -13,7 +13,7 @@ public class BTDTree implements Datastructure{
     double minY =Integer.MAX_VALUE;
     double minX = Integer.MAX_VALUE;
 
-    int[] train_air = new int[2];
+//    int[] train_air = new int[2];
 
     int debCount=0;
 
@@ -23,9 +23,10 @@ public class BTDTree implements Datastructure{
     public BTDTree(String p){
         construct(p);
     }
-    public BTDTree(BTDTreeNode r){
-        root=r;
-    }
+//    public BTDTree(BTDTreeNode r){
+//        root=r;
+//    }
+
     public void add(TransportNode d){
         if(root!=null) {
             root.add(d);
@@ -33,26 +34,27 @@ public class BTDTree implements Datastructure{
             root=new BTDTreeNode(d);
         }
     }
-    public void addV2(TransportNode d,ArrayList<TransportNode> arr){
-        if(root!=null) {
-            root.addV2(d,arr);
-        } else {
-            root=new BTDTreeNode(d);
-        }
-    }
+//    public void addV2(TransportNode d,ArrayList<TransportNode> arr){
+//        if(root!=null) {
+//            root.addV2(d,arr);
+//        } else {
+//            root=new BTDTreeNode(d);
+//        }
+//    }
+
+//    public void constructOld(String path){
+//        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
+//        {
+//            while(scn.hasNextLine()){
+//                add(new TransportNode(scn.nextLine()));
+//            }
+//        } catch(FileNotFoundException e){
+//            System.out.println("File not found!");
+//            System.exit(1);
+//        }
+//    }
 
     public void construct(String path){
-        try(Scanner scn = new Scanner(new File(path),"UTF-8"))
-        {
-            while(scn.hasNextLine()){
-                add(new TransportNode(scn.nextLine()));
-            }
-        } catch(FileNotFoundException e){
-            System.out.println("File not found!");
-            System.exit(1);
-        }
-    }
-    public void constructV2(String path){
         ArrayList<TransportNode> arr=new ArrayList<TransportNode>();
         try(Scanner scn = new Scanner(new File(path),"UTF-8"))
         {
@@ -75,7 +77,6 @@ public class BTDTree implements Datastructure{
                 arr.sort(Comparator.comparingDouble(TransportNode::getyCoord));
             }
             add(arr.get(median));
-            arr.get(median).print();
             if (median > 0) {
                 ArrayList<TransportNode> left = splitAL(arr, 0, median);
                 construct(left, !chk);
@@ -83,9 +84,6 @@ public class BTDTree implements Datastructure{
             if (median < arr.size()) {
                 ArrayList<TransportNode> right = splitAL(arr, median + 1, arr.size());
                 construct(right, !chk);
-            } else {
-                add(arr.get(arr.size()));
-                arr.get(arr.size()).print();
             }
         }
     }
@@ -103,18 +101,19 @@ public class BTDTree implements Datastructure{
         private BTDTreeNode left;
         private BTDTreeNode right;
 
-        //immer abwechelnd in der höhe des Binärbaums die größe überprüfen einmal das x vergleichen dann das y dann wieder x...
-        public BTDTreeNode(){
+//        public BTDTreeNode(){
+//
+//        }
 
-        }
         public BTDTreeNode(TransportNode d){
             data=d;
         }
-        public BTDTreeNode(TransportNode d, BTDTreeNode l, BTDTreeNode r){
-            data=d;
-            left =l;
-            right=r;
-        }
+//        public BTDTreeNode(TransportNode d, BTDTreeNode l, BTDTreeNode r){
+//            data=d;
+//            left =l;
+//            right=r;
+//        }
+
         public void add(TransportNode neu){
             add(new BTDTreeNode(neu),true);
 
@@ -188,159 +187,157 @@ public class BTDTree implements Datastructure{
 
             }
         }
+//        public ArrayList splitAL(ArrayList old, int indexSt, int indexEnd){
+//            ArrayList neu = new ArrayList();
+//            for (int i = indexSt; i < indexEnd; i++) {
+//                neu.add(old.get(i));
+//            }
+//            return neu;
+//        }
+//        public void addV2(TransportNode neu,ArrayList<TransportNode> arr){
+//            addV2(new BTDTreeNode(neu),true,arr);
+//        }
 
-        public ArrayList splitAL(ArrayList old, int indexSt, int indexEnd){
-            ArrayList neu = new ArrayList();
-            for (int i = indexSt; i < indexEnd; i++) {
-                neu.add(old.get(i));
-            }
-            return neu;
-        }
-
-        public void addV2(TransportNode neu,ArrayList<TransportNode> arr){
-            addV2(new BTDTreeNode(neu),true,arr);
-        }
-
-        public void addV2(BTDTreeNode neu, boolean chk, ArrayList<TransportNode> arr){
-            int median=(int)Math.floor(arr.size()/2);
-            System.out.println("median: "+median);
-            if(chk){ //damit in jeder ebene des Baumes abwechselnd jeweils nur x oder die y koordinate verglichen wird
-                arr.sort(Comparator.comparingDouble(TransportNode::getxCoord));
-
-                if(neu.data.getxCoord()<arr.get(median).getxCoord()){ //den neuen x wert mit dem x-median des derzeitigen bereichs
-
-                    if(left!=null){
-                        left.addV2(neu,!chk,splitAL(arr,0,median-1));
-                    }
-
-                    else {
-                        left = neu;
-                        //für die zeichnen() methode
-                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
-                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
-
-                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
-                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
-                    }
-                }
-                else{
-
-                    if(right!=null){
-                        right.addV2(neu,!chk,splitAL(arr,median+1,arr.size()));
-                    }
-                    else {
-                        right = neu;
-                        //für die zeichnen() methode
-                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
-                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
-
-                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
-                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
-                    }
-
-                }
-
-            }
-            else{//nach y Koordinate überprüfen
-                arr.sort(Comparator.comparingDouble(TransportNode::getyCoord));
-
-
-                if(neu.data.getyCoord()<arr.get(median).getyCoord()){
-
-                    if(left!=null){
-                        left.addV2(neu,!chk,splitAL(arr,0,median-1));
-                    }
-                    else {
-                        left = neu;
-                        //für die zeichnen() methode
-                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
-                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
-
-                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
-                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
-                    }
-                }
-                else{
-
-                    if(right!=null){
-                        right.addV2(neu,!chk,splitAL(arr,median+1, arr.size()));
-                    }
-                    else {
-                        right = neu;
-                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
-                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
-
-                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
-                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
-                    }
-
-                }
-
-            }
-        }
+//        public void addV2(BTDTreeNode neu, boolean chk, ArrayList<TransportNode> arr){
+//            int median=(int)Math.floor(arr.size()/2);
+//            System.out.println("median: "+median);
+//            if(chk){ //damit in jeder ebene des Baumes abwechselnd jeweils nur x oder die y koordinate verglichen wird
+//                arr.sort(Comparator.comparingDouble(TransportNode::getxCoord));
+//
+//                if(neu.data.getxCoord()<arr.get(median).getxCoord()){ //den neuen x wert mit dem x-median des derzeitigen bereichs
+//
+//                    if(left!=null){
+//                        left.addV2(neu,!chk,splitAL(arr,0,median-1));
+//                    }
+//
+//                    else {
+//                        left = neu;
+//                        //für die zeichnen() methode
+//                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+//                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+//
+//                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+//                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
+//                    }
+//                }
+//                else{
+//
+//                    if(right!=null){
+//                        right.addV2(neu,!chk,splitAL(arr,median+1,arr.size()));
+//                    }
+//                    else {
+//                        right = neu;
+//                        //für die zeichnen() methode
+//                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+//                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+//
+//                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+//                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
+//                    }
+//
+//                }
+//
+//            }
+//            else{//nach y Koordinate überprüfen
+//                arr.sort(Comparator.comparingDouble(TransportNode::getyCoord));
+//
+//
+//                if(neu.data.getyCoord()<arr.get(median).getyCoord()){
+//
+//                    if(left!=null){
+//                        left.addV2(neu,!chk,splitAL(arr,0,median-1));
+//                    }
+//                    else {
+//                        left = neu;
+//                        //für die zeichnen() methode
+//                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+//                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+//
+//                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+//                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
+//                    }
+//                }
+//                else{
+//
+//                    if(right!=null){
+//                        right.addV2(neu,!chk,splitAL(arr,median+1, arr.size()));
+//                    }
+//                    else {
+//                        right = neu;
+//                        if(neu.data.getxCoord()>maxX) maxX=neu.data.getxCoord();
+//                        if(neu.data.getyCoord()>maxY) maxY=neu.data.getyCoord();
+//
+//                        if(neu.data.getxCoord()<minX) minX=neu.data.getxCoord();
+//                        if(neu.data.getyCoord()<minY) minY=neu.data.getyCoord();
+//                    }
+//
+//                }
+//
+//            }
+//        }
 
         //nodesInRadius Methode mit globalem Array zum testen
-        public void nodesInRadiusDEB(double r, double xThis, double yThis){
-
-            if(left!=null){
-                left.nodesInRadius( r,  xThis, yThis);
-            }
-
-            if(right!=null){
-                right.nodesInRadius( r,  xThis, yThis);
-            }
-            //debCount++;
-            if (Math.abs(data.getxCoord() - xThis) <= r && Math.abs(data.getyCoord() - yThis) <= r) {
-                double distance = TransportNode.distance(data, new TransportNode(xThis, yThis));
-                if (distance <= r) {
-                    if (data.getType() == Type.AIRPORT){
-                        train_air[1]++;
-                    } else {
-                        train_air[0]++;
-                    }
-                }
-            }
-
-
-        }
+//        public void nodesInRadiusDEB(double r, double xThis, double yThis){
+//
+//            if(left!=null){
+//                left.nodesInRadius( r,  xThis, yThis);
+//            }
+//
+//            if(right!=null){
+//                right.nodesInRadius( r,  xThis, yThis);
+//            }
+//            //debCount++;
+//            if (Math.abs(data.getxCoord() - xThis) <= r && Math.abs(data.getyCoord() - yThis) <= r) {
+//                double distance = TransportNode.distance(data, new TransportNode(xThis, yThis));
+//                if (distance <= r) {
+//                    if (data.getType() == Type.AIRPORT){
+//                        train_air[1]++;
+//                    } else {
+//                        train_air[0]++;
+//                    }
+//                }
+//            }
+//
+//
+//        }
 
         //normale nodesInRadius Methode mit Rekursion und internen lokalen Arrays
-        public int[] nodesInRadius(double r, double xThis, double yThis){
-            int[] train_air2 = new int[2];
-            if(left!=null){
-                int[] temp = left.nodesInRadius( r,  xThis, yThis);
-                train_air2[0]+=temp[0];
-                train_air2[1]+=temp[1];
-            }
-
-            if (Math.abs(data.getxCoord() - xThis) <= r && Math.abs(data.getyCoord() - yThis) <= r) {
-                double distance = TransportNode.distance(data, new TransportNode(xThis, yThis));debCount++;
-                if (distance <= r) {
-                    if (data.getType() == Type.AIRPORT){
-                        train_air2[1]++;
-                        Color old = StdDraw.getPenColor();
-                        StdDraw.setPenColor(Color.YELLOW);
-                        StdDraw.point(data.getxCoord(),data.getyCoord());
-                        StdDraw.setPenColor(old);
-                    } else {
-                        train_air2[0]++;
-                        Color old = StdDraw.getPenColor();
-                        StdDraw.setPenColor(Color.YELLOW);
-                        StdDraw.point(data.getxCoord(),data.getyCoord());
-                        StdDraw.setPenColor(old);
-                    }
-
-                }
-            }
-
-            if(right!=null){
-                int[] temp = right.nodesInRadius( r,  xThis, yThis);
-                train_air2[0]+=temp[0];
-                train_air2[1]+=temp[1];
-            }
-
-            return train_air2;
-        }
+//        public int[] nodesInRadius(double r, double xThis, double yThis){
+//            int[] train_air2 = new int[2];
+//            if(left!=null){
+//                int[] temp = left.nodesInRadius( r,  xThis, yThis);
+//                train_air2[0]+=temp[0];
+//                train_air2[1]+=temp[1];
+//            }
+//
+//            if (Math.abs(data.getxCoord() - xThis) <= r && Math.abs(data.getyCoord() - yThis) <= r) {
+//                double distance = TransportNode.distance(data, new TransportNode(xThis, yThis));debCount++;
+//                if (distance <= r) {
+//                    if (data.getType() == Type.AIRPORT){
+//                        train_air2[1]++;
+//                        Color old = StdDraw.getPenColor();
+//                        StdDraw.setPenColor(Color.YELLOW);
+//                        StdDraw.point(data.getxCoord(),data.getyCoord());
+//                        StdDraw.setPenColor(old);
+//                    } else {
+//                        train_air2[0]++;
+//                        Color old = StdDraw.getPenColor();
+//                        StdDraw.setPenColor(Color.YELLOW);
+//                        StdDraw.point(data.getxCoord(),data.getyCoord());
+//                        StdDraw.setPenColor(old);
+//                    }
+//
+//                }
+//            }
+//
+//            if(right!=null){
+//                int[] temp = right.nodesInRadius( r,  xThis, yThis);
+//                train_air2[0]+=temp[0];
+//                train_air2[1]+=temp[1];
+//            }
+//
+//            return train_air2;
+//        }
 
         public int[] nodesInRadiusOPTColor(double x, double y, double r, boolean chk){
             int[] numAPTS = new int[2];
@@ -676,7 +673,5 @@ public class BTDTree implements Datastructure{
         baum.debCount=0;
         double time = (System.currentTimeMillis()-start);
         System.out.println(time);
-        a = baum.nodesInRadius(1000000000,0, 0);
-        System.out.println(a[0] + " : " + a[1]);
     }
 }
