@@ -4,6 +4,9 @@ public class Main {
     public static void main(String[] args) {
         String path = "data/junctions.csv";
         menu(path);
+<<<<<<< HEAD
+=======
+>>>>>>> 0ec7742c397c4669f68e1d93e09ab8a99574eb5f
     }
 
     private static void map(String path,Datastructure d){
@@ -176,6 +179,9 @@ public class Main {
         System.out.println("BTDTree Test finished.");
 
         System.out.println();
+<<<<<<< HEAD
+=======
+>>>>>>> 0ec7742c397c4669f68e1d93e09ab8a99574eb5f
     }
     private static void testNIRMenu(String path){
         Datastructure datSt = null;

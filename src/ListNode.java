@@ -26,4 +26,10 @@ public class ListNode {
     public void setNext(ListNode next) {
         this.next = next;
     }
+<<<<<<< HEAD
 }
+=======
+
+
+}
+>>>>>>> 0ec7742c397c4669f68e1d93e09ab8a99574eb5f
