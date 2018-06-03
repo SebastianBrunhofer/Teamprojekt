@@ -276,30 +276,6 @@ public class BTDTree implements Datastructure{
 //            }
 //        }
 
-        //nodesInRadius Methode mit globalem Array zum testen
-//        public void nodesInRadiusDEB(double r, double xThis, double yThis){
-//
-//            if(left!=null){
-//                left.nodesInRadius( r,  xThis, yThis);
-//            }
-//
-//            if(right!=null){
-//                right.nodesInRadius( r,  xThis, yThis);
-//            }
-//            //debCount++;
-//            if (Math.abs(data.getxCoord() - xThis) <= r && Math.abs(data.getyCoord() - yThis) <= r) {
-//                double distance = TransportNode.distance(data, new TransportNode(xThis, yThis));
-//                if (distance <= r) {
-//                    if (data.getType() == Type.AIRPORT){
-//                        train_air[1]++;
-//                    } else {
-//                        train_air[0]++;
-//                    }
-//                }
-//            }
-//
-//
-//        }
 
         //normale nodesInRadius Methode mit Rekursion und internen lokalen Arrays
 //        public int[] nodesInRadius(double r, double xThis, double yThis){
@@ -533,12 +509,6 @@ public class BTDTree implements Datastructure{
                 /*if(root.nodesInRadius(r,data.getxCoord(),data.getyCoord())[0]>=n){
                     erg++;
                 }*/
-                //testversuch mit der nodesInRadius Methode die ein Globales Array verwendet
-                /*train_air = new int[2];
-                nodesInRadius(r,data.getxCoord(),data.getyCoord());
-                if(train_air[0]>=n){
-                    erg++;
-                }*/
 
             }
 
@@ -624,15 +594,6 @@ public class BTDTree implements Datastructure{
         BTDTree baum = new BTDTree();
         String path = "data/junctions.csv";
         baum.construct(path);
-        /*try(Scanner scn = new Scanner(new File(path),"UTF-8"))
-        {
-            while(scn.hasNextLine()){
-                baum.add(new TransportNode(scn.nextLine()));
-            }
-        } catch(FileNotFoundException e){
-            System.out.println("File not found!");
-            System.exit(1);
-        }*/
 
         System.out.println("X: "+baum.minX+" -> "+baum.maxX);
         System.out.println("Y: "+baum.minY+" -> "+baum.maxY);

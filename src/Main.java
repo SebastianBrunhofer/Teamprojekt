@@ -6,35 +6,6 @@ public class Main {
         String path = "data/junctions.csv";
         menu(path);
 
-        //DEBUG
-/*
-        BTDTree bbaum = new BTDTree();
-        bbaum.construct(path);
-        bbaum.zeichnen();
-        //bbaum.drawRadius(100, 1818.54657, 5813.29982);
-
-        List mylist = new List(path);
-
-        while(true){
-            if(StdDraw.hasNextKeyTyped()&&(StdDraw.nextKeyTyped()=='k')){
-                double x= StdDraw.mouseX();
-                double y= StdDraw.mouseY();
-                int[] z;
-                System.out.println("List...");
-                mylist.drawRadius(400, x, y);
-                z=mylist.nodesInRadius(400,x,y);
-                System.out.println("Trainstations: "+z[0] + "; Airports: " + z[1]);
-                //System.out.println("Number of Airports List: "+mylist.numAPTS(100,20));
-                System.out.println("List done.");
-
-                System.out.println("Baum...");
-                bbaum.drawRadius(400, x, y);
-                z=bbaum.nodesInRadius(400,x,y);
-                System.out.println("Trainstations: "+z[0] + "; Airports: " + z[1]);
-                //System.out.println("Number of Airports BTDTree: "+bbaum.numAPTS(100,20));
-                System.out.println("Baum done.");
-            }
-        }*/
     }
     public static void map(String path,Datastructure d){
         Datastructure datSt = d;
@@ -63,13 +34,14 @@ public class Main {
 
         }
         double rad = rad(stX,stY,endX,endY);
-        datSt.drawRadius(rad, stX, stY);
-        StdDraw.show();
+
         System.out.println("stX: "+stX+" stY: "+stY);
         System.out.println("endX: "+endX+" endY: "+endY);
+
         long start = System.currentTimeMillis();
         int[] a = datSt.nodesInRadiusCOLOR(rad, stX, stY);
         long time = (System.currentTimeMillis()-start);
+        datSt.drawRadius(rad, stX, stY);
         StdDraw.show();
 
         System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
@@ -97,7 +69,8 @@ public class Main {
                         break;
                     case 3:
                         NIRMapMenu(path);
-                    case 5:
+                        break;
+                    case 4:
                         testNumAPTSMenu(path);
                         break;
                     default:
@@ -207,47 +180,6 @@ public class Main {
 
         System.out.println();
 
-//        //TDTree Test
-//        System.out.println("TDTree Test...");
-//        TDTree tbaum = new TDTree();
-//        tbaum.construct(path);
-//        //Testcases
-//        a = tbaum.nodesInRadius(10000, 1818.54657, 5813.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        a = tbaum.nodesInRadius(10000, 1818.54657, 2000.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        a = tbaum.nodesInRadius(10000, 1818.54657, -300.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        a = tbaum.nodesInRadius(10000, -1818.54657, 5813.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        a = tbaum.nodesInRadius(10000, -1818.54657, -5813.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        start = System.currentTimeMillis();
-//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,20));
-//        time = (System.currentTimeMillis()-start);
-//        System.out.println(time+"ms");
-//
-//        start = System.currentTimeMillis();
-//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,1));
-//        time = (System.currentTimeMillis()-start);
-//        System.out.println(time+"ms");
-//
-//        start = System.currentTimeMillis();
-//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,5));
-//        time = (System.currentTimeMillis()-start);
-//        System.out.println(time+"ms");
-//
-//        start = System.currentTimeMillis();
-//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,10));
-//        time = (System.currentTimeMillis()-start);
-//        System.out.println(time+"ms");
-//
-//        System.out.println("TDTree Test finished.");
     }
     private static void testNIRMenu(String path){
         Datastructure datSt = null;
@@ -300,7 +232,9 @@ public class Main {
             if (sc.hasNextInt()) {
                 switch (sc.nextInt()) {
                     case 0:
-                        System.exit(1);
+                        System.out.println("returning to Main Menu...");
+                        System.out.println();
+                        return;
                     case 1:
                         System.out.println("Input: left mousebutton to choose center, hold and drag to choose radius");
                         map(path, new List(path));
@@ -308,12 +242,14 @@ public class Main {
                     case 2:
                         System.out.println("Input: left mousebutton to choose center, hold and drag to choose radius");
                         map(path, new BTDTree(path));
+                        break;
                     default:
                         break;
                 }
             } else {
                 sc.next();
             }
+            System.out.println("Map Menu:" + '\n' + '\t' + "1: run on datastructure list" + '\n' + '\t' + "2: run on datatstructure tree" + '\n' + '\t' + "0: cancel");
         }
     }
     private static void testNumAPTSMenu(String path){
