@@ -1,42 +1,12 @@
 import java.util.Scanner;
-import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
         String path = "data/junctions.csv";
         menu(path);
-
-        //DEBUG
-/*
-        BTDTree bbaum = new BTDTree();
-        bbaum.construct(path);
-        bbaum.zeichnen();
-        //bbaum.drawRadius(100, 1818.54657, 5813.29982);
-
-        List mylist = new List(path);
-
-        while(true){
-            if(StdDraw.hasNextKeyTyped()&&(StdDraw.nextKeyTyped()=='k')){
-                double x= StdDraw.mouseX();
-                double y= StdDraw.mouseY();
-                int[] z;
-                System.out.println("List...");
-                mylist.drawRadius(400, x, y);
-                z=mylist.nodesInRadius(400,x,y);
-                System.out.println("Trainstations: "+z[0] + "; Airports: " + z[1]);
-                //System.out.println("Number of Airports List: "+mylist.numAPTS(100,20));
-                System.out.println("List done.");
-
-                System.out.println("Baum...");
-                bbaum.drawRadius(400, x, y);
-                z=bbaum.nodesInRadius(400,x,y);
-                System.out.println("Trainstations: "+z[0] + "; Airports: " + z[1]);
-                //System.out.println("Number of Airports BTDTree: "+bbaum.numAPTS(100,20));
-                System.out.println("Baum done.");
-            }
-        }*/
     }
-    public static void map(String path,Datastructure d){
+
+    private static void map(String path,Datastructure d){
         Datastructure datSt = d;
         datSt.construct(path);
         datSt.zeichnen();
@@ -76,7 +46,7 @@ public class Main {
         System.out.println(time+"ms");
 
     }
-    static double rad(double x,double y,double x2, double y2){
+    private static double rad(double x,double y,double x2, double y2){
         double xDist = Math.abs(x) - Math.abs(x2);
         double yDist = Math.abs(y) - Math.abs(y2);
         return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
@@ -122,7 +92,7 @@ public class Main {
         System.out.println("List Test...");
         datSt = new List(path);
         datSt.zeichnen();
-        //datSt.drawRadius(10000, 1818.54657, 5813.29982);
+        datSt.drawRadius(100, 1818.54657, 5813.29982);
         //Testcases
         a = datSt.nodesInRadius(10000, 1818.54657, 5813.29982);
         System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
@@ -206,48 +176,6 @@ public class Main {
         System.out.println("BTDTree Test finished.");
 
         System.out.println();
-
-//        //TDTree Test
-//        System.out.println("TDTree Test...");
-//        TDTree tbaum = new TDTree();
-//        tbaum.construct(path);
-//        //Testcases
-//        a = tbaum.nodesInRadius(10000, 1818.54657, 5813.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        a = tbaum.nodesInRadius(10000, 1818.54657, 2000.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        a = tbaum.nodesInRadius(10000, 1818.54657, -300.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        a = tbaum.nodesInRadius(10000, -1818.54657, 5813.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        a = tbaum.nodesInRadius(10000, -1818.54657, -5813.29982);
-//        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-//
-//        start = System.currentTimeMillis();
-//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,20));
-//        time = (System.currentTimeMillis()-start);
-//        System.out.println(time+"ms");
-//
-//        start = System.currentTimeMillis();
-//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,1));
-//        time = (System.currentTimeMillis()-start);
-//        System.out.println(time+"ms");
-//
-//        start = System.currentTimeMillis();
-//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,5));
-//        time = (System.currentTimeMillis()-start);
-//        System.out.println(time+"ms");
-//
-//        start = System.currentTimeMillis();
-//        System.out.println("Number of Airports: "+tbaum.numAPTS(15,10));
-//        time = (System.currentTimeMillis()-start);
-//        System.out.println(time+"ms");
-//
-//        System.out.println("TDTree Test finished.");
     }
     private static void testNIRMenu(String path){
         Datastructure datSt = null;

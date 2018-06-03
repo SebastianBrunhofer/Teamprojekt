@@ -5,7 +5,7 @@ public class TransportNode {
     private double yCoord;
     private Type type;
 
-    public TransportNode(String s){
+    public TransportNode(String s) {
         String[] temp = s.split(";");
         int invCount = 0;
         if (temp.length == 4) {
@@ -19,37 +19,32 @@ public class TransportNode {
         } else {
             invCount++;
         }
-        if (invCount > 0){
+        if (invCount > 0) {
             System.out.println(invCount);
         }
     }
-    public TransportNode(double xCoord, double yCoord){
+
+    public TransportNode(double xCoord, double yCoord) {
         this.xCoord = xCoord;
         this.yCoord = yCoord;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-
     public double getxCoord() {
         return xCoord;
     }
+
     public double getyCoord() {
         return yCoord;
     }
+
     public Type getType() {
         return type;
-    }
-
-    public void print() {
-        System.out.println("Name: " + name + " x = " + xCoord + " y = " + yCoord + " Typ: " + type);
     }
 
     /*
      *  Berechnet die Distanz zwischen zwei Transportknotenpunkten
      */
-    public static double distance(TransportNode a, TransportNode b){
+    public static double distance(TransportNode a, TransportNode b) {
         double xDist = Math.abs(a.getxCoord()) - Math.abs(b.getxCoord());
         double yDist = Math.abs(a.getyCoord()) - Math.abs(b.getyCoord());
         return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
