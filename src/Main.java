@@ -6,6 +6,7 @@ public class Main {
         menu(path);
 <<<<<<< HEAD
 =======
+
 >>>>>>> 0ec7742c397c4669f68e1d93e09ab8a99574eb5f
     }
 
@@ -36,13 +37,14 @@ public class Main {
 
         }
         double rad = rad(stX,stY,endX,endY);
-        datSt.drawRadius(rad, stX, stY);
-        StdDraw.show();
+
         System.out.println("stX: "+stX+" stY: "+stY);
         System.out.println("endX: "+endX+" endY: "+endY);
+
         long start = System.currentTimeMillis();
         int[] a = datSt.nodesInRadiusCOLOR(rad, stX, stY);
         long time = (System.currentTimeMillis()-start);
+        datSt.drawRadius(rad, stX, stY);
         StdDraw.show();
 
         System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
@@ -70,7 +72,8 @@ public class Main {
                         break;
                     case 3:
                         NIRMapMenu(path);
-                    case 5:
+                        break;
+                    case 4:
                         testNumAPTSMenu(path);
                         break;
                     default:
@@ -181,6 +184,7 @@ public class Main {
         System.out.println();
 <<<<<<< HEAD
 =======
+
 >>>>>>> 0ec7742c397c4669f68e1d93e09ab8a99574eb5f
     }
     private static void testNIRMenu(String path){
@@ -234,7 +238,9 @@ public class Main {
             if (sc.hasNextInt()) {
                 switch (sc.nextInt()) {
                     case 0:
-                        System.exit(1);
+                        System.out.println("returning to Main Menu...");
+                        System.out.println();
+                        return;
                     case 1:
                         System.out.println("Input: left mousebutton to choose center, hold and drag to choose radius");
                         map(path, new List(path));
@@ -242,12 +248,14 @@ public class Main {
                     case 2:
                         System.out.println("Input: left mousebutton to choose center, hold and drag to choose radius");
                         map(path, new BTDTree(path));
+                        break;
                     default:
                         break;
                 }
             } else {
                 sc.next();
             }
+            System.out.println("Map Menu:" + '\n' + '\t' + "1: run on datastructure list" + '\n' + '\t' + "2: run on datatstructure tree" + '\n' + '\t' + "0: cancel");
         }
     }
     private static void testNumAPTSMenu(String path){
