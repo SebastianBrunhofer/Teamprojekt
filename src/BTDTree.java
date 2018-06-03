@@ -63,25 +63,27 @@ public class BTDTree implements Datastructure{
         }
         construct(arr, true);
     }
-    private void construct(ArrayList<TransportNode> arr, boolean chk){
-        int median = arr.size() / 2;
-        if (chk) {
-            arr.sort(Comparator.comparingDouble(TransportNode::getxCoord));
-        } else {
-            arr.sort(Comparator.comparingDouble(TransportNode::getyCoord));
-        }
-        add(arr.get(median));
-        if (median > 0) {
-            ArrayList<TransportNode> left = splitAL(arr, 0, median - 1);
-            construct(left, !chk);
-        } else {
-            add(arr.get(0));
-        }
-        if (median < arr.size()) {
-            ArrayList<TransportNode> right = splitAL(arr, median + 1, arr.size());
-            construct(right, !chk);
-        } else {
-            add(arr.get(arr.size()));
+    private void construct(ArrayList<TransportNode> arr, boolean chk) {
+        if (arr.size() != 0) {
+            int median = arr.size() / 2;
+            if (chk) {
+                arr.sort(Comparator.comparingDouble(TransportNode::getxCoord));
+            } else {
+                arr.sort(Comparator.comparingDouble(TransportNode::getyCoord));
+            }
+            add(arr.get(median));
+            arr.get(median).print();
+            if (median > 0) {
+                ArrayList<TransportNode> left = splitAL(arr, 0, median);
+                construct(left, !chk);
+            }
+            if (median < arr.size()) {
+                ArrayList<TransportNode> right = splitAL(arr, median + 1, arr.size());
+                construct(right, !chk);
+            } else {
+                add(arr.get(arr.size()));
+                arr.get(arr.size()).print();
+            }
         }
     }
     private static ArrayList splitAL(ArrayList old, int indexSt, int indexEnd){
@@ -463,5 +465,7 @@ public class BTDTree implements Datastructure{
         baum.debCount=0;
         double time = (System.currentTimeMillis()-start);
         System.out.println(time);
+        a = baum.nodesInRadius(1000000000,0, 0);
+        System.out.println(a[0] + " : " + a[1]);
     }
 }
