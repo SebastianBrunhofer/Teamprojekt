@@ -4,10 +4,6 @@ public class Main {
     public static void main(String[] args) {
         String path = "data/junctions.csv";
         menu(path);
-<<<<<<< HEAD
-=======
-
->>>>>>> 0ec7742c397c4669f68e1d93e09ab8a99574eb5f
     }
 
     private static void map(String path,Datastructure d){
@@ -57,7 +53,7 @@ public class Main {
         return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
     }
     private static void menu( String path){
-        System.out.println("Main Menu: " + '\n' + '\t' + "1:  run preset testcases" + '\n' + '\t' + "2:  number of trainstations / airports within a radius from point" + '\n' + '\t' + "3:  number of trainstations / airports within a radius from a point (map input)" + '\n' + '\t' + "5:  number of airports with a certain number of trainstations within a radius" + '\n' + '\t' + "0:  cancel");
+        System.out.println("Main Menu: " + '\n' + '\t' + "1:  run preset testcases" + '\n' + '\t' + "2:  number of trainstations / airports within a radius from point" + '\n' + '\t' + "3:  number of trainstations / airports within a radius from a point (map input)" + '\n' + '\t' + "4:  number of airports with a certain number of trainstations within a radius" + '\n' + '\t' + "0:  cancel");
         Scanner sc = new Scanner(System.in);
         while (sc.hasNext()){
             if (sc.hasNextInt()){
@@ -84,7 +80,7 @@ public class Main {
                 sc.next();
             }
             System.out.println();
-            System.out.println("Main Menu: " + '\n' + '\t' + "1:  run preset testcases" + '\n' + '\t' + "2:  number of trainstations / airports within a radius from point" + '\n' + '\t' + "3:  number of trainstations / airports within a radius from a point (map input)" + '\n' + '\t' + "5:  number of airports with a certain number of trainstations within a radius" + '\n' + '\t' + "0:  cancel");
+            System.out.println("Main Menu: " + '\n' + '\t' + "1:  run preset testcases" + '\n' + '\t' + "2:  number of trainstations / airports within a radius from point" + '\n' + '\t' + "3:  number of trainstations / airports within a radius from a point (map input)" + '\n' + '\t' + "4:  number of airports with a certain number of trainstations within a radius" + '\n' + '\t' + "0:  cancel");
         }
 
     }
@@ -182,10 +178,6 @@ public class Main {
         System.out.println("BTDTree Test finished.");
 
         System.out.println();
-<<<<<<< HEAD
-=======
-
->>>>>>> 0ec7742c397c4669f68e1d93e09ab8a99574eb5f
     }
     private static void testNIRMenu(String path){
         Datastructure datSt = null;
@@ -195,6 +187,8 @@ public class Main {
             if (sc.hasNextInt()){
                 switch (sc.nextInt()){
                     case 0:
+                        System.out.println("returning to Main Menu...");
+                        System.out.println();
                         return;
                     case 1:
                         datSt = new List(path);
@@ -266,6 +260,8 @@ public class Main {
             if (sc.hasNextInt()){
                 switch (sc.nextInt()){
                     case 0:
+                        System.out.println("returning to Main Menu...");
+                        System.out.println();
                         return;
                     case 1:
                         datSt = new List(path);
