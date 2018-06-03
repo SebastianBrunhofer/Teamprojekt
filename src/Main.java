@@ -64,14 +64,15 @@ public class Main {
         }
         double rad = rad(stX,stY,endX,endY);
         datSt.drawRadius(rad, stX, stY);
-
-        long start = System.currentTimeMillis();
-
-        int[] a = datSt.nodesInRadiusCOLOR(rad, stX, stY);
         StdDraw.show();
-        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-
+        System.out.println("stX: "+stX+" stY: "+stY);
+        System.out.println("endX: "+endX+" endY: "+endY);
+        long start = System.currentTimeMillis();
+        int[] a = datSt.nodesInRadiusCOLOR(rad, stX, stY);
         long time = (System.currentTimeMillis()-start);
+        StdDraw.show();
+
+        System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
         System.out.println(time+"ms");
 
     }
@@ -127,11 +128,11 @@ public class Main {
         System.out.println("List Test...");
         datSt = new List(path);
         datSt.zeichnen();
-        datSt.drawRadius(100, 1818.54657, 5813.29982);
+        //datSt.drawRadius(10000, 1818.54657, 5813.29982);
         //Testcases
         a = datSt.nodesInRadius(10000, 1818.54657, 5813.29982);
         System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
-
+        StdDraw.show();
         a = datSt.nodesInRadius(10000, 1818.54657, 2000.29982);
         System.out.println("Trainstations: "+a[0] + "; Airports: " + a[1]);
 

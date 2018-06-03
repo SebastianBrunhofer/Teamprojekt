@@ -516,7 +516,9 @@ public class BTDTree implements Datastructure{
                 if(root.nodesInRadiusOPT(data.getxCoord(),data.getyCoord(),r,true)[0]>=n){
                     erg++;
                 }
-
+                /*if(root.nodesInRadius(r,data.getxCoord(),data.getyCoord())[0]>=n){
+                    erg++;
+                }*/
                 //testversuch mit der nodesInRadius Methode die ein Globales Array verwendet
                 /*train_air = new int[2];
                 nodesInRadius(r,data.getxCoord(),data.getyCoord());
